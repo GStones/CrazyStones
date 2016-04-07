@@ -1,0 +1,93 @@
+{"frames": {
+
+"icon_activity_0.png":
+{
+	"frame": {"x":2,"y":2,"w":450,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":450,"h":120},
+	"sourceSize": {"w":450,"h":120},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"icon_bloodDown.png":
+{
+	"frame": {"x":962,"y":2,"w":200,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":30},
+	"sourceSize": {"w":200,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"icon_bloodRed.png":
+{
+	"frame": {"x":962,"y":34,"w":200,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":200,"h":30},
+	"sourceSize": {"w":200,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"icon_lifePet_big.png":
+{
+	"frame": {"x":962,"y":66,"w":50,"h":40},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":40},
+	"sourceSize": {"w":50,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"skill_1.png":
+{
+	"frame": {"x":454,"y":2,"w":105,"h":105},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":8,"w":105,"h":105},
+	"sourceSize": {"w":121,"h":121},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"skill_2.png":
+{
+	"frame": {"x":668,"y":2,"w":96,"h":97},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":96,"h":97},
+	"sourceSize": {"w":108,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"skill_3.png":
+{
+	"frame": {"x":766,"y":2,"w":96,"h":97},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":96,"h":97},
+	"sourceSize": {"w":108,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"skill_4.png":
+{
+	"frame": {"x":561,"y":2,"w":105,"h":105},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":8,"w":105,"h":105},
+	"sourceSize": {"w":121,"h":121},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"skill_5.png":
+{
+	"frame": {"x":864,"y":2,"w":96,"h":97},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":96,"h":97},
+	"sourceSize": {"w":108,"h":108},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "new_skill_ui.png",
+	"format": "RGBA8888",
+	"size": {"w":1164,"h":124},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6d906927effc39cfbfe59a98c1a33891:3f5a283ce53af77ea1a59f31cbbe1640:19ec1290fc6fd9a4bd99a56924ed1ffc$"
+}
+}
