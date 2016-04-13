@@ -48,33 +48,33 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _testWorld = __webpack_require__(63);
+	var _testWorld = __webpack_require__(61);
 	
 	var _testWorld2 = _interopRequireDefault(_testWorld);
 	
-	var _test2World = __webpack_require__(71);
+	var _test2World = __webpack_require__(69);
 	
 	var _test2World2 = _interopRequireDefault(_test2World);
 	
-	var _crusadeWorld = __webpack_require__(77);
+	var _crusadeWorld = __webpack_require__(75);
 	
 	var _crusadeWorld2 = _interopRequireDefault(_crusadeWorld);
 	
-	var _gameGlobal = __webpack_require__(68);
+	var _gameGlobal = __webpack_require__(66);
 	
 	var _gameGlobal2 = _interopRequireDefault(_gameGlobal);
 	
-	var _gameDefines = __webpack_require__(65);
+	var _gameDefines = __webpack_require__(63);
 	
 	var _gameDefines2 = _interopRequireDefault(_gameDefines);
 	
-	var _resources = __webpack_require__(72);
+	var _resources = __webpack_require__(70);
 	
 	var _resources2 = _interopRequireDefault(_resources);
 	
-	var _petHomeWorld = __webpack_require__(80);
+	var _crazyStoneWorld = __webpack_require__(78);
 	
-	var _petHomeWorld2 = _interopRequireDefault(_petHomeWorld);
+	var _crazyStoneWorld2 = _interopRequireDefault(_crazyStoneWorld);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -93,22 +93,14 @@
 	  _imports.ResourceManager.setResPath(_gameDefines2.default.resPath);
 	  _imports.ResourceManager.loadUI(_resources2.default.json_kenney_theme, function () {
 	
-	    var testWorld = (0, _testWorld2.default)();
+	    var testWorld = (0, _crazyStoneWorld2.default)();
 	    testWorld.init();
 	    director.startWorld(testWorld);
 	    _imports.Helper.scaleToWindow(director.renderer, director.runningWorld.node);
-	    _imports.SRequest.get(_gameDefines2.default.gameURL, "s/Info/GetBag", { test: 1, name: "haha" }, function (data) {
-	      console.log('resp 1' + JSON.stringify(data));
-	    });
 	
-	    _imports.SRequest.post(_gameDefines2.default.gameURL, "s/Info/RenamePet", { "pet_id": 1000 }, function (data) {
-	      console.log('resp 2' + JSON.stringify(data));
-	    });
 	    window.addEventListener("resize", function (event) {
 	      _imports.Helper.scaleToWindow(director.renderer, director.runningWorld.node);
 	    });
-	
-	    PIXI.CanvasGraphics;
 	  });
 	};
 
@@ -127,39 +119,39 @@
 	
 	var _animationFactor2 = _interopRequireDefault(_animationFactor);
 	
-	var _helper = __webpack_require__(54);
+	var _helper = __webpack_require__(52);
 	
 	var _helper2 = _interopRequireDefault(_helper);
 	
-	var _resourceManager = __webpack_require__(55);
+	var _resourceManager = __webpack_require__(53);
 	
 	var _resourceManager2 = _interopRequireDefault(_resourceManager);
 	
-	var _director = __webpack_require__(56);
+	var _director = __webpack_require__(54);
 	
 	var _director2 = _interopRequireDefault(_director);
 	
-	var _simpleRequest = __webpack_require__(57);
+	var _simpleRequest = __webpack_require__(55);
 	
 	var _simpleRequest2 = _interopRequireDefault(_simpleRequest);
 	
-	var _baseWorld = __webpack_require__(58);
+	var _baseWorld = __webpack_require__(56);
 	
 	var _baseWorld2 = _interopRequireDefault(_baseWorld);
 	
-	var _baseLayer = __webpack_require__(59);
+	var _baseLayer = __webpack_require__(57);
 	
 	var _baseLayer2 = _interopRequireDefault(_baseLayer);
 	
-	var _modelLayer = __webpack_require__(60);
+	var _modelLayer = __webpack_require__(58);
 	
 	var _modelLayer2 = _interopRequireDefault(_modelLayer);
 	
-	var _eventuality = __webpack_require__(62);
+	var _eventuality = __webpack_require__(60);
 	
 	var _eventuality2 = _interopRequireDefault(_eventuality);
 	
-	var _inherited = __webpack_require__(61);
+	var _inherited = __webpack_require__(59);
 	
 	var _inherited2 = _interopRequireDefault(_inherited);
 	
@@ -601,7 +593,7 @@
 	module.exports = PIXI.spine = {
 	    Spine:          __webpack_require__(7),
 	    SpineRuntime:   __webpack_require__(8),
-	    loaders:        __webpack_require__(52)
+	    loaders:        __webpack_require__(50)
 	};
 
 
@@ -610,7 +602,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(8);
-	var atlasParser = __webpack_require__(50);
+	var atlasParser = __webpack_require__(48);
 	
 	/* Esoteric Software SPINE wrapper for pixi.js */
 	spine.Bone.yDown = true;
@@ -817,21 +809,29 @@
 	                }
 	            }
 	
-	            var bone = slot.bone;
+	            if (slotContainer.transform ) {
+	                //PIXI v4.0
+	                if (!slotContainer.transform._dirtyLocal) {
+	                    slotContainer.transform = new PIXI.TransformStatic();
+	                }
+	                var transform = slotContainer.transform;
+	                var lt = transform.localTransform;
+	                transform._dirtyParentVersion = -1;
+	                transform._dirtyLocal = 1;
+	                transform._versionLocal = 1;
+	                slot.bone.matrix.copy(lt);
+	                lt.tx += slot.bone.skeleton.x;
+	                lt.ty += slot.bone.skeleton.y;
+	            } else {
+	                //PIXI v3
+	                var lt = slotContainer.localTransform || new PIXI.Matrix();
+	                slot.bone.matrix.copy(lt);
+	                lt.tx += slot.bone.skeleton.x;
+	                lt.ty += slot.bone.skeleton.y;
+	                slotContainer.localTransform = lt;
+	                slotContainer.displayObjectUpdateTransform = SlotContainerUpdateTransformV3;
+	            }
 	
-	            slotContainer.position.x = bone.worldX + attachment.x * bone.m00 + attachment.y * bone.m01;
-	            slotContainer.position.y = bone.worldY + attachment.x * bone.m10 + attachment.y * bone.m11;
-	            slotContainer.scale.x = bone.worldScaleX;
-	            slotContainer.scale.y = bone.worldScaleY;
-	            slotContainer.rotation = -(slot.bone.worldRotation * spine.degRad);
-	            if (bone.worldFlipX) {
-	                slotContainer.scale.x = -slotContainer.scale.x;
-	                slotContainer.rotation = -slotContainer.rotation;
-	            }
-	            if (bone.worldFlipY == spine.Bone.yDown) {
-	                slotContainer.scale.y = -slotContainer.scale.y;
-	                slotContainer.rotation = -slotContainer.rotation;
-	            }
 	            slot.currentSprite.blendMode = slot.blendMode;
 	            slot.currentSprite.tint = PIXI.utils.rgb2hex([slot.r,slot.g,slot.b]);
 	        }
@@ -860,9 +860,7 @@
 	                slot.currentMesh = slot.meshes[meshName];
 	                slot.currentMeshName = meshName;
 	            }
-	
 	            attachment.computeWorldVertices(slot.bone.skeleton.x, slot.bone.skeleton.y, slot, slot.currentMesh.vertices);
-	
 	        }
 	        else
 	        {
@@ -915,9 +913,11 @@
 	    var baseRotation = descriptor.rotate ? Math.PI * 0.5 : 0.0;
 	    sprite.scale.x = attachment.width / descriptor.originalWidth * attachment.scaleX;
 	    sprite.scale.y = attachment.height / descriptor.originalHeight * attachment.scaleY;
-	    sprite.rotation = baseRotation - (attachment.rotation * spine.degRad);
+	    sprite.rotation = -baseRotation + (attachment.rotation * spine.degRad);
 	    sprite.anchor.x = (0.5 * descriptor.originalWidth - descriptor.offsetX) / descriptor.width;
 	    sprite.anchor.y = 1.0 - ((0.5 * descriptor.originalHeight - descriptor.offsetY) / descriptor.height);
+	    sprite.position.x = attachment.x;
+	    sprite.position.y = attachment.y;
 	    sprite.alpha = attachment.a;
 	
 	    if (descriptor.rotate) {
@@ -925,6 +925,7 @@
 	        sprite.scale.x = sprite.scale.y;
 	        sprite.scale.y = x1;
 	    }
+	    sprite.scale.y = -sprite.scale.y;
 	
 	    slot.sprites = slot.sprites || {};
 	    slot.sprites[descriptor.name] = sprite;
@@ -958,6 +959,21 @@
 	    slot.meshes[attachment.name] = strip;
 	
 	    return strip;
+	};
+	
+	function SlotContainerUpdateTransformV3()
+	{
+	    var pt = this.parent.worldTransform;
+	    var wt = this.worldTransform;
+	    var lt = this.localTransform;
+	    wt.a  = lt.a  * pt.a + lt.b  * pt.c;
+	    wt.b  = lt.a  * pt.b + lt.b  * pt.d;
+	    wt.c  = lt.c  * pt.a + lt.d  * pt.c;
+	    wt.d  = lt.c  * pt.b + lt.d  * pt.d;
+	    wt.tx = lt.tx * pt.a + lt.ty * pt.c + pt.tx;
+	    wt.ty = lt.tx * pt.b + lt.ty * pt.d + pt.ty;
+	    this.worldAlpha = this.alpha * this.parent.worldAlpha;
+	    this._currentBounds = null;
 	};
 
 
@@ -1015,25 +1031,23 @@
 	spine.Event = __webpack_require__(32);
 	spine.EventTimeline = __webpack_require__(33);
 	spine.FfdTimeline = __webpack_require__(34);
-	spine.FlipXTimeline = __webpack_require__(35);
-	spine.FlipYTimeline = __webpack_require__(36);
-	spine.IkConstraintData = __webpack_require__(37);
-	spine.IkConstraint = __webpack_require__(38);
-	spine.IkConstraintTimeline = __webpack_require__(39);
+	spine.IkConstraintData = __webpack_require__(35);
+	spine.IkConstraint = __webpack_require__(36);
+	spine.IkConstraintTimeline = __webpack_require__(37);
 	spine.MeshAttachment = __webpack_require__(17);
 	spine.RegionAttachment = __webpack_require__(15);
-	spine.RotateTimeline = __webpack_require__(40);
-	spine.ScaleTimeline = __webpack_require__(41);
-	spine.SkeletonBounds = __webpack_require__(42);
-	spine.SkeletonData = __webpack_require__(43);
-	spine.Skeleton = __webpack_require__(44);
-	spine.SkeletonJsonParser = __webpack_require__(46);
-	spine.Skin = __webpack_require__(48);
-	spine.SkinnedMeshAttachment = __webpack_require__(18);
-	spine.SlotData = __webpack_require__(47);
-	spine.Slot = __webpack_require__(45);
+	spine.RotateTimeline = __webpack_require__(38);
+	spine.ScaleTimeline = __webpack_require__(39);
+	spine.SkeletonBounds = __webpack_require__(40);
+	spine.SkeletonData = __webpack_require__(41);
+	spine.Skeleton = __webpack_require__(42);
+	spine.SkeletonJsonParser = __webpack_require__(44);
+	spine.Skin = __webpack_require__(46);
+	spine.WeightedMeshAttachment = __webpack_require__(18);
+	spine.SlotData = __webpack_require__(45);
+	spine.Slot = __webpack_require__(43);
 	spine.TrackEntry = __webpack_require__(13);
-	spine.TranslateTimeline = __webpack_require__(49);
+	spine.TranslateTimeline = __webpack_require__(47);
 	module.exports = spine;
 
 
@@ -1046,7 +1060,12 @@
 	    degRad: Math.PI / 180,
 	    temp: [],
 	    Float32Array: (typeof(Float32Array) === 'undefined') ? Array : Float32Array,
-	    Uint16Array: (typeof(Uint16Array) === 'undefined') ? Array : Uint16Array
+	    Uint16Array: (typeof(Uint16Array) === 'undefined') ? Array : Uint16Array,
+	    signum: function(x) {
+	        if (x>0) return 1;
+	        if (x<0) return -1;
+	        return 0;
+	    }
 	};
 	
 
@@ -1403,7 +1422,7 @@
 	var spine = __webpack_require__(9);
 	spine.RegionAttachment = __webpack_require__(15);
 	spine.MeshAttachment = __webpack_require__(17);
-	spine.SkinnedMeshAttachment = __webpack_require__(18);
+	spine.WeightedMeshAttachment = __webpack_require__(18);
 	spine.BoundingBoxAttachment = __webpack_require__(19);
 	spine.AtlasAttachmentParser = function (atlas)
 	{
@@ -1444,11 +1463,11 @@
 	        attachment.regionOriginalHeight = region.originalHeight;
 	        return attachment;
 	    },
-	    newSkinnedMeshAttachment: function (skin, name, path)
+	    newWeightedMeshAttachment: function (skin, name, path)
 	    {
 	        var region = this.atlas.findRegion(path);
 	        if (!region) throw "Region not found in atlas: " + path + " (skinned mesh attachment: " + name + ")";
-	        var attachment = new spine.SkinnedMeshAttachment(name);
+	        var attachment = new spine.WeightedMeshAttachment(name);
 	        attachment.rendererObject = region;
 	        attachment.regionU = region.u;
 	        attachment.regionV = region.v;
@@ -1555,7 +1574,7 @@
 	    {
 	        x += bone.worldX;
 	        y += bone.worldY;
-	        var m00 = bone.m00, m01 = bone.m01, m10 = bone.m10, m11 = bone.m11;
+	        var m00 = bone.matrix.a, m01 = bone.matrix.c, m10 = bone.matrix.b, m11 = bone.matrix.d;
 	        var offset = this.offset;
 	        vertices[0/*X1*/] = offset[0/*X1*/] * m00 + offset[1/*Y1*/] * m01 + x;
 	        vertices[1/*Y1*/] = offset[0/*X1*/] * m10 + offset[1/*Y1*/] * m11 + y;
@@ -1580,8 +1599,10 @@
 	    region: 0,
 	    boundingbox: 1,
 	    mesh: 2,
+	    weightedmesh : 3,
 	    skinnedmesh: 3,
-	    weightedmesh : 4
+	    linkedmesh: 4,
+	    weightedlinkedmesh: 5
 	};
 	module.exports = spine.AttachmentType;
 	
@@ -1599,6 +1620,8 @@
 	};
 	spine.MeshAttachment.prototype = {
 	    type: spine.AttachmentType.mesh,
+	    parentMesh: null,
+	    inheritFFD: false,
 	    vertices: null,
 	    uvs: null,
 	    regionUVs: null,
@@ -1641,7 +1664,7 @@
 	        var bone = slot.bone;
 	        x += bone.worldX;
 	        y += bone.worldY;
-	        var m00 = bone.m00, m01 = bone.m01, m10 = bone.m10, m11 = bone.m11;
+	        var m00 = bone.matrix.a, m01 = bone.matrix.c, m10 = bone.matrix.b, m11 = bone.matrix.d;
 	        var vertices = this.vertices;
 	        var verticesCount = vertices.length;
 	        if (slot.attachmentVertices.length == verticesCount) vertices = slot.attachmentVertices;
@@ -1651,6 +1674,18 @@
 	            var vy = vertices[i + 1];
 	            worldVertices[i] = vx * m00 + vy * m01 + x;
 	            worldVertices[i + 1] = vx * m10 + vy * m11 + y;
+	        }
+	    },
+	    applyFFD: function(sourceAttachment) {
+	        return this === sourceAttachment || (this.inheritFFD && parentMesh === sourceAttachment);
+	    },
+	    setParentMesh: function(parentMesh) {
+	        this.parentMesh = parentMesh;
+	        if (parentMesh != null) {
+	            this.vertices = parentMesh.vertices;
+	            this.regionUVs = parentMesh.regionUVs;
+	            this.triangles = parentMesh.triangles;
+	            this.hullLength = parentMesh.hullLength;
 	        }
 	    }
 	};
@@ -1664,12 +1699,14 @@
 
 	var spine = __webpack_require__(9) || {};
 	spine.AttachmentType = __webpack_require__(16);
-	spine.SkinnedMeshAttachment = function (name)
+	spine.WeightedMeshAttachment = function (name)
 	{
 	    this.name = name;
 	};
-	spine.SkinnedMeshAttachment.prototype = {
-	    type: spine.AttachmentType.skinnedmesh,
+	spine.WeightedMeshAttachment.prototype = {
+	    type: spine.AttachmentType.weightedmesh,
+	    parentMesh: null,
+	    inheritFFD: false,
 	    bones: null,
 	    weights: null,
 	    uvs: null,
@@ -1715,7 +1752,8 @@
 	        var bones = this.bones;
 	
 	        var w = 0, v = 0, b = 0, f = 0, n = bones.length, nn;
-	        var wx, wy, bone, vx, vy, weight;
+	        var wx, wy, vx, vy, weight;
+	        var m;
 	        if (!slot.attachmentVertices.length)
 	        {
 	            for (; v < n; w += 2)
@@ -1725,12 +1763,12 @@
 	                nn = bones[v++] + v;
 	                for (; v < nn; v++, b += 3)
 	                {
-	                    bone = skeletonBones[bones[v]];
+	                    m = skeletonBones[bones[v]].matrix;
 	                    vx = weights[b];
 	                    vy = weights[b + 1];
 	                    weight = weights[b + 2];
-	                    wx += (vx * bone.m00 + vy * bone.m01 + bone.worldX) * weight;
-	                    wy += (vx * bone.m10 + vy * bone.m11 + bone.worldY) * weight;
+	                    wx += (vx * m.a + vy * m.c + m.tx) * weight;
+	                    wy += (vx * m.b + vy * m.d + m.ty) * weight;
 	                }
 	                worldVertices[w] = wx + x;
 	                worldVertices[w + 1] = wy + y;
@@ -1744,20 +1782,33 @@
 	                nn = bones[v++] + v;
 	                for (; v < nn; v++, b += 3, f += 2)
 	                {
-	                    bone = skeletonBones[bones[v]];
+	                    m = skeletonBones[bones[v]].matrix;
 	                    vx = weights[b] + ffd[f];
 	                    vy = weights[b + 1] + ffd[f + 1];
 	                    weight = weights[b + 2];
-	                    wx += (vx * bone.m00 + vy * bone.m01 + bone.worldX) * weight;
-	                    wy += (vx * bone.m10 + vy * bone.m11 + bone.worldY) * weight;
+	                    wx += (vx * m.a + vy * m.c + m.tx) * weight;
+	                    wy += (vx * m.b + vy * m.d + m.ty) * weight;
 	                }
 	                worldVertices[w] = wx + x;
 	                worldVertices[w + 1] = wy + y;
 	            }
 	        }
+	    },
+	    applyFFD: function(sourceAttachment) {
+	        return this === sourceAttachment || (this.inheritFFD && parentMesh === sourceAttachment);
+	    },
+	    setParentMesh: function(parentMesh) {
+	        this.parentMesh = parentMesh;
+	        if (parentMesh != null) {
+	            this.bones = parentMesh.bones;
+	            this.weights = parentMesh.weights;
+	            this.regionUVs = parentMesh.regionUVs;
+	            this.triangles = parentMesh.triangles;
+	            this.hullLength = parentMesh.hullLength;
+	        }
 	    }
 	};
-	module.exports = spine.SkinnedMeshAttachment;
+	module.exports = spine.WeightedMeshAttachment;
 	
 
 
@@ -1778,7 +1829,7 @@
 	    {
 	        x += bone.worldX;
 	        y += bone.worldY;
-	        var m00 = bone.m00, m01 = bone.m01, m10 = bone.m10, m11 = bone.m11;
+	        var m00 = bone.a, m01 = bone.c, m10 = bone.b, m11 = bone.d;
 	        var vertices = this.vertices;
 	        for (var i = 0, n = vertices.length; i < n; i += 2)
 	        {
@@ -2255,8 +2306,7 @@
 	    rotation: 0,
 	    scaleX: 1, scaleY: 1,
 	    inheritScale: true,
-	    inheritRotation: true,
-	    flipX: false, flipY: false
+	    inheritRotation: true
 	};
 	module.exports = spine.BoneData;
 	
@@ -2272,6 +2322,7 @@
 	    this.data = boneData;
 	    this.skeleton = skeleton;
 	    this.parent = parent;
+	    this.matrix = new PIXI.Matrix();
 	    this.setToSetupPose();
 	};
 	spine.Bone.yDown = false;
@@ -2280,59 +2331,138 @@
 	    rotation: 0, rotationIK: 0,
 	    scaleX: 1, scaleY: 1,
 	    flipX: false, flipY: false,
-	    m00: 0, m01: 0, worldX: 0, // a b x
-	    m10: 0, m11: 0, worldY: 0, // c d y
-	    worldRotation: 0,
-	    worldScaleX: 1, worldScaleY: 1,
-	    worldFlipX: false, worldFlipY: false,
-	    updateWorldTransform: function ()
-	    {
+	
+	    worldSignX: 1, worldSignY: 1,
+	    updateWorldTransform: function() {
+	        var rotation = this.rotationIK;
+	        var scaleX = this.scaleX;
+	        var scaleY = this.scaleY;
+	        var x = this.x;
+	        var y = this.y;
+	
+	        var cos = Math.cos(rotation * spine.degRad), sin = Math.sin(rotation * spine.degRad);
+	        var la = cos * scaleX, lb = -sin * scaleY, lc = sin * scaleX, ld = cos * scaleY;
 	        var parent = this.parent;
-	        if (parent)
-	        {
-	            this.worldX = this.x * parent.m00 + this.y * parent.m01 + parent.worldX;
-	            this.worldY = this.x * parent.m10 + this.y * parent.m11 + parent.worldY;
-	            if (this.data.inheritScale)
-	            {
-	                this.worldScaleX = parent.worldScaleX * this.scaleX;
-	                this.worldScaleY = parent.worldScaleY * this.scaleY;
-	            } else {
-	                this.worldScaleX = this.scaleX;
-	                this.worldScaleY = this.scaleY;
+	        var m = this.matrix;
+	        var skeleton = this.skeleton;
+	        if (!parent) { // Root bone.
+	            if (skeleton.flipX) {
+	                x = -x;
+	                la = -la;
+	                lb = -lb;
 	            }
-	            this.worldRotation = this.data.inheritRotation ? (parent.worldRotation + this.rotationIK) : this.rotationIK;
-	            this.worldFlipX = parent.worldFlipX != this.flipX;
-	            this.worldFlipY = parent.worldFlipY != this.flipY;
-	        } else {
-	            var skeletonFlipX = this.skeleton.flipX, skeletonFlipY = this.skeleton.flipY;
-	            this.worldX = skeletonFlipX ? -this.x : this.x;
-	            this.worldY = (skeletonFlipY != spine.Bone.yDown) ? -this.y : this.y;
-	            this.worldScaleX = this.scaleX;
-	            this.worldScaleY = this.scaleY;
-	            this.worldRotation = this.rotationIK;
-	            this.worldFlipX = skeletonFlipX != this.flipX;
-	            this.worldFlipY = skeletonFlipY != this.flipY;
+	            if (skeleton.flipY !== spine.Bone.yDown) {
+	                y = -y;
+	                lc = -lc;
+	                ld = -ld;
+	            }
+	            m.a = la;
+	            m.c = lb;
+	            m.b = lc;
+	            m.d = ld;
+	            m.tx = x;
+	            m.ty = y;
+	            this.worldSignX = spine.signum(scaleX);
+	            this.worldSignY = spine.signum(scaleY);
+	            return;
 	        }
-	        var radians = this.worldRotation * spine.degRad;
-	        var cos = Math.cos(radians);
-	        var sin = Math.sin(radians);
-	        if (this.worldFlipX)
-	        {
-	            this.m00 = -cos * this.worldScaleX;
-	            this.m01 = sin * this.worldScaleY;
+	
+	
+	        var pa = parent.matrix.a, pb = parent.matrix.c, pc = parent.matrix.b, pd = parent.matrix.d;
+	        m.tx = pa * x + pb * y + parent.matrix.tx;
+	        m.ty = pc * x + pd * y + parent.matrix.ty;
+	        this.worldSignX = parent.worldSignX * spine.signum(scaleX);
+	        this.worldSignY = parent.worldSignY * spine.signum(scaleY);
+	        var data = this.data;
+	
+	        if (data.inheritRotation && data.inheritScale) {
+	            m.a = pa * la + pb * lc;
+	            m.c = pa * lb + pb * ld;
+	            m.b = pc * la + pd * lc;
+	            m.d = pc * lb + pd * ld;
+	        } else if (data.inheritRotation) { // No scale inheritance.
+	            pa = 1;
+	            pb = 0;
+	            pc = 0;
+	            pd = 1;
+	            do {
+	                cos = Math.cos(parent.rotationIK * spine.degRad);
+	                sin = Math.sin(parent.rotationIK * spine.degRad);
+	                var temp = pa * cos + pb * sin;
+	                pb = pa * -sin + pb * cos;
+	                pa = temp;
+	                temp = pc * cos + pd * sin;
+	                pd = pc * -sin + pd * cos;
+	                pc = temp;
+	
+	                if (!parent.data.inheritRotation) break;
+	                parent = parent.parent;
+	            } while (parent != null);
+	            m.a = pa * la + pb * lc;
+	            m.c = pa * lb + pb * ld;
+	            m.b = pc * la + pd * lc;
+	            m.d = pc * lb + pd * ld;
+	            if (skeleton.flipX) {
+	                m.a = -m.a;
+	                m.c = -m.c;
+	            }
+	            if (skeleton.flipY !== spine.Bone.yDown) {
+	                m.b = -m.b;
+	                m.d = -m.d;
+	            }
+	        } else if (data.inheritScale) { // No rotation inheritance.
+	            pa = 1;
+	            pb = 0;
+	            pc = 0;
+	            pd = 1;
+	            do {
+	                var r = parent.rotation;
+	                cos = Math.cos(r * spine.degRad);
+	                sin = Math.sin(r * spine.degRad);
+	                var psx = parent.scaleX, psy = parent.scaleY;
+	                var za = cos * psx, zb = -sin * psy, zc = sin * psx, zd = cos * psy;
+	                temp = pa * za + pb * zc;
+	                pb = pa * zb + pb * zd;
+	                pa = temp;
+	                temp = pc * za + pd * zc;
+	                pd = pc * zb + pd * zd;
+	                pc = temp;
+	
+	                if (psx < 0) {
+	                    r = -r;
+	                } else {
+	                    sin = -sin;
+	                }
+	                temp = pa * cos + pb * sin;
+	                pb = pa * -sin + pb * cos;
+	                pa = temp;
+	                temp = pc * cos + pd * sin;
+	                pd = pc * -sin + pd * cos;
+	                pc = temp;
+	
+	                if (!parent.data.inheritScale) break;
+	                parent = parent.parent;
+	            } while (parent != null);
+	            m.a = pa * la + pb * lc;
+	            m.c = pa * lb + pb * ld;
+	            m.b = pc * la + pd * lc;
+	            m.d = pc * lb + pd * ld;
+	            if (skeleton.flipX) {
+	                m.a = -m.a;
+	                m.c = -m.c;
+	            }
+	            if (skeleton.flipY !== spine.Bone.yDown) {
+	                m.b = -m.b;
+	                m.d = -m.d;
+	            }
 	        } else {
-	            this.m00 = cos * this.worldScaleX;
-	            this.m01 = -sin * this.worldScaleY;
-	        }
-	        if (this.worldFlipY != spine.Bone.yDown)
-	        {
-	            this.m10 = -sin * this.worldScaleX;
-	            this.m11 = -cos * this.worldScaleY;
-	        } else {
-	            this.m10 = sin * this.worldScaleX;
-	            this.m11 = cos * this.worldScaleY;
+	            m.a = la;
+	            m.c = lb;
+	            m.b = lc;
+	            m.d = ld;
 	        }
 	    },
+	
 	    setToSetupPose: function ()
 	    {
 	        var data = this.data;
@@ -2342,31 +2472,56 @@
 	        this.rotationIK = this.rotation;
 	        this.scaleX = data.scaleX;
 	        this.scaleY = data.scaleY;
-	        this.flipX = data.flipX;
-	        this.flipY = data.flipY;
 	    },
 	    worldToLocal: function (world)
 	    {
-	        var dx = world[0] - this.worldX, dy = world[1] - this.worldY;
-	        var m00 = this.m00, m10 = this.m10, m01 = this.m01, m11 = this.m11;
-	        if (this.worldFlipX != (this.worldFlipY != spine.Bone.yDown))
-	        {
-	            m00 = -m00;
-	            m11 = -m11;
-	        }
-	        var invDet = 1 / (m00 * m11 - m01 * m10);
-	        world[0] = dx * m00 * invDet - dy * m01 * invDet;
-	        world[1] = dy * m11 * invDet - dx * m10 * invDet;
+	        var m = this.matrix;
+	        var dx = world[0] - m.tx, dy = m.ty;
+	        var invDet = 1 / (m.a * m.d - m.b * m.c);
+	        //Yep, its a bug in original spine. I hope they'll fix it: https://github.com/EsotericSoftware/spine-runtimes/issues/544
+	        world[0] = dx * m.a * invDet - dy * m.c * invDet;
+	        world[1] = dy * m.d * invDet - dx * m.b * invDet;
 	    },
 	    localToWorld: function (local)
 	    {
 	        var localX = local[0], localY = local[1];
-	        local[0] = localX * this.m00 + localY * this.m01 + this.worldX;
-	        local[1] = localX * this.m10 + localY * this.m11 + this.worldY;
+	        var m = this.matrix;
+	        local[0] = localX * m.a + localY * m.c + m.tx;
+	        local[1] = localX * m.b + localY * m.d + m.ty;
+	    },
+	    getWorldRotationX: function() {
+	        return Math.atan2(this.matrix.b, this.matrix.a) * spine.radDeg;
+	
+	    },
+	    getWorldRotationY: function() {
+	        return Math.atan2(this.matrix.d, this.matrix.c) * spine.radDeg;
+	    },
+	    getWorldScaleX: function() {
+	        var a = this.matrix.a;
+	        var b = this.matrix.b;
+	        return Math.sqrt(a*a+b*b);
+	    },
+	    getWorldScaleY: function() {
+	        var c = this.matrix.c;
+	        var d = this.matrix.d;
+	        return Math.sqrt(c * c + d * d);
 	    }
 	};
-	module.exports = spine.Bone;
 	
+	Object.defineProperties(spine.Bone.prototype, {
+	    worldX: {
+	        get: function() {
+	            return this.matrix.tx;
+	        }
+	    },
+	    worldY:  {
+	        get: function() {
+	            return this.matrix.ty;
+	        }
+	    }
+	});
+	
+	module.exports = spine.Bone;
 
 
 /***/ },
@@ -2624,7 +2779,8 @@
 	    apply: function (skeleton, lastTime, time, firedEvents, alpha)
 	    {
 	        var slot = skeleton.slots[this.slotIndex];
-	        if (slot.attachment != this.attachment) return;
+	        var slotAttachment = slot.attachment;
+	        if (!slotAttachment.applyFFD || !slotAttachment.applyFFD(this.attachment)) return;
 	
 	        var frames = this.frames;
 	        if (time < frames[0]) return; // Time is before first frame.
@@ -2687,92 +2843,6 @@
 /* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var spine = __webpack_require__(9);
-	spine.Animation = __webpack_require__(10);
-	spine.Curves = __webpack_require__(26);
-	spine.FlipXTimeline = function (frameCount)
-	{
-	    this.curves = new spine.Curves(frameCount);
-	    this.frames = []; // time, flip, ...
-	    this.frames.length = frameCount * 2;
-	};
-	spine.FlipXTimeline.prototype = {
-	    boneIndex: 0,
-	    getFrameCount: function ()
-	    {
-	        return this.frames.length / 2;
-	    },
-	    setFrame: function (frameIndex, time, flip)
-	    {
-	        frameIndex *= 2;
-	        this.frames[frameIndex] = time;
-	        this.frames[frameIndex + 1] = flip ? 1 : 0;
-	    },
-	    apply: function (skeleton, lastTime, time, firedEvents, alpha)
-	    {
-	        var frames = this.frames;
-	        if (time < frames[0])
-	        {
-	            if (lastTime > time) this.apply(skeleton, lastTime, Number.MAX_VALUE, null, 0);
-	            return;
-	        } else if (lastTime > time) //
-	            lastTime = -1;
-	        var frameIndex = (time >= frames[frames.length - 2] ? frames.length : spine.Animation.binarySearch(frames, time, 2)) - 2;
-	        if (frames[frameIndex] < lastTime) return;
-	        skeleton.bones[this.boneIndex].flipX = frames[frameIndex + 1] != 0;
-	    }
-	};
-	module.exports = spine.FlipXTimeline;
-	
-
-
-/***/ },
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var spine = __webpack_require__(9);
-	spine.Animation = __webpack_require__(10);
-	spine.Curves = __webpack_require__(26);
-	spine.FlipYTimeline = function (frameCount)
-	{
-	    this.curves = new spine.Curves(frameCount);
-	    this.frames = []; // time, flip, ...
-	    this.frames.length = frameCount * 2;
-	};
-	spine.FlipYTimeline.prototype = {
-	    boneIndex: 0,
-	    getFrameCount: function ()
-	    {
-	        return this.frames.length / 2;
-	    },
-	    setFrame: function (frameIndex, time, flip)
-	    {
-	        frameIndex *= 2;
-	        this.frames[frameIndex] = time;
-	        this.frames[frameIndex + 1] = flip ? 1 : 0;
-	    },
-	    apply: function (skeleton, lastTime, time, firedEvents, alpha)
-	    {
-	        var frames = this.frames;
-	        if (time < frames[0])
-	        {
-	            if (lastTime > time) this.apply(skeleton, lastTime, Number.MAX_VALUE, null, 0);
-	            return;
-	        } else if (lastTime > time) //
-	            lastTime = -1;
-	        var frameIndex = (time >= frames[frames.length - 2] ? frames.length : spine.Animation.binarySearch(frames, time, 2)) - 2;
-	        if (frames[frameIndex] < lastTime) return;
-	        skeleton.bones[this.boneIndex].flipY = frames[frameIndex + 1] != 0;
-	    }
-	};
-	module.exports = spine.FlipYTimeline;
-	
-
-
-/***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var spine = __webpack_require__(9) || {};
 	spine.IkConstraintData = function (name)
 	{
@@ -2789,7 +2859,7 @@
 
 
 /***/ },
-/* 38 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
@@ -2824,86 +2894,147 @@
 	 * coordinate system. */
 	spine.IkConstraint.apply1 = function (bone, targetX, targetY, alpha)
 	{
-	    var parentRotation = (!bone.data.inheritRotation || !bone.parent) ? 0 : bone.parent.worldRotation;
+	    var parentRotation = bone.parent ? bone.parent.getWorldRotationX(): 0;
 	    var rotation = bone.rotation;
-	    // worldY and targetY sign depends on global constant spine.Bone.yDown
-	    var rotationIK = (spine.Bone.yDown?-spine.radDeg:spine.radDeg)* Math.atan2(targetY - bone.worldY, targetX - bone.worldX) - parentRotation;
+	    var rotationIK = Math.atan2(targetY - bone.worldY, targetX - bone.worldX) * spine.radDeg - parentRotation;
+	    if ((bone.worldSignX != bone.worldSignY) != (bone.skeleton.flipX != (bone.skeleton.flipY != spine.Bone.yDown))) rotationIK = 360 - rotationIK;
+	    if (rotationIK > 180)
+	        rotationIK -= 360;
+	    else if (rotationIK < -180) rotationIK += 360;
 	    bone.rotationIK = rotation + (rotationIK - rotation) * alpha;
 	};
 	/** Adjusts the parent and child bone rotations so the tip of the child is as close to the target position as possible. The
 	 * target is specified in the world coordinate system.
 	 * @param child Any descendant bone of the parent. */
-	spine.IkConstraint.apply2 = function (parent, child, targetX, targetY, bendDirection, alpha)
+	spine.IkConstraint.apply2 = function (parent, child, targetX, targetY, bendDir, alpha)
 	{
-	    var childRotation = child.rotation, parentRotation = parent.rotation;
-	    if (!alpha)
-	    {
-	        child.rotationIK = childRotation;
-	        parent.rotationIK = parentRotation;
-	        return;
-	    }
-	    var positionX, positionY, tempPosition = spine.temp;
-	    var parentParent = parent.parent;
-	    if (parentParent)
-	    {
-	        tempPosition[0] = targetX;
-	        tempPosition[1] = targetY;
-	        parentParent.worldToLocal(tempPosition);
-	        targetX = (tempPosition[0] - parent.x) * parentParent.worldScaleX;
-	        targetY = (tempPosition[1] - parent.y) * parentParent.worldScaleY;
+	    if (alpha == 0) return;
+	    var px = parent.x, py = parent.y, psx = parent.scaleX, psy = parent.scaleY, csx = child.scaleX, cy = child.y;
+	    var offset1, offset2, sign2;
+	    if (psx < 0) {
+	        psx = -psx;
+	        offset1 = 180;
+	        sign2 = -1;
 	    } else {
-	        targetX -= parent.x;
-	        targetY -= parent.y;
+	        offset1 = 0;
+	        sign2 = 1;
 	    }
-	    if (child.parent == parent)
-	    {
-	        positionX = child.x;
-	        positionY = child.y;
+	    if (psy < 0) {
+	        psy = -psy;
+	        sign2 = -sign2;
+	    }
+	    if (csx < 0) {
+	        csx = -csx;
+	        offset2 = 180;
+	    } else
+	        offset2 = 0;
+	    var pp = parent.parent;
+	    var ppm = pp.matrix;
+	    var tx, ty, dx, dy;
+	    if (pp == null) {
+	        tx = targetX - px;
+	        ty = targetY - py;
+	        dx = child.worldX - px;
+	        dy = child.worldY - py;
 	    } else {
-	        tempPosition[0] = child.x;
-	        tempPosition[1] = child.y;
-	        child.parent.localToWorld(tempPosition);
-	        parent.worldToLocal(tempPosition);
-	        positionX = tempPosition[0];
-	        positionY = tempPosition[1];
+	        var a = ppm.a, b = ppm.c, c = ppm.b, d = ppm.d, invDet = 1 / (a * d - b * c);
+	        var wx = ppm.tx, wy = ppm.ty, x = targetX - wx, y = targetY - wy;
+	        tx = (x * d - y * b) * invDet - px;
+	        ty = (y * a - x * c) * invDet - py;
+	        x = child.worldX - wx;
+	        y = child.worldY - wy;
+	        dx = (x * d - y * b) * invDet - px;
+	        dy = (y * a - x * c) * invDet - py;
 	    }
-	    var childX = positionX * parent.worldScaleX, childY = positionY * parent.worldScaleY;
-	    var offset = Math.atan2(childY, childX);
-	    var len1 = Math.sqrt(childX * childX + childY * childY), len2 = child.data.length * child.worldScaleX;
-	    // Based on code by Ryan Juckett with permission: Copyright (c) 2008-2009 Ryan Juckett, http://www.ryanjuckett.com/
-	    var cosDenom = 2 * len1 * len2;
-	    if (cosDenom < 0.0001)
-	    {
-	        child.rotationIK = childRotation + (Math.atan2(targetY, targetX) * spine.radDeg - parentRotation - childRotation) * alpha;
-	        return;
-	    }
-	    var cos = (targetX * targetX + targetY * targetY - len1 * len1 - len2 * len2) / cosDenom;
-	    if (cos < -1)
-	        cos = -1;
-	    else if (cos > 1)
-	        cos = 1;
-	    var childAngle = Math.acos(cos) * bendDirection;
-	    var adjacent = len1 + len2 * cos, opposite = len2 * Math.sin(childAngle);
-	    var parentAngle = Math.atan2(targetY * adjacent - targetX * opposite, targetX * adjacent + targetY * opposite);
-	    var rotation = (parentAngle - offset) * spine.radDeg - parentRotation;
-	    if (rotation > 180)
-	        rotation -= 360;
-	    else if (rotation < -180) //
-	        rotation += 360;
-	    parent.rotationIK = parentRotation + rotation * alpha;
-	    rotation = (childAngle + offset) * spine.radDeg - childRotation;
-	    if (rotation > 180)
-	        rotation -= 360;
-	    else if (rotation < -180) //
-	        rotation += 360;
-	    child.rotationIK = childRotation + (rotation + parent.worldRotation - child.parent.worldRotation) * alpha;
+	    var l1 = Math.sqrt(dx * dx + dy * dy), l2 = child.data.length * csx, a1, a2;
+	    outer:
+	        if (Math.abs(psx - psy) <= 0.0001) {
+	            l2 *= psx;
+	            var cos = (tx * tx + ty * ty - l1 * l1 - l2 * l2) / (2 * l1 * l2);
+	            if (cos < -1)
+	                cos = -1;
+	            else if (cos > 1) cos = 1;
+	            a2 = Math.acos(cos) * bendDir;
+	            var a = l1 + l2 * cos, o = l2 * Math.sin(a2);
+	            a1 = Math.atan2(ty * a - tx * o, tx * a + ty * o);
+	        } else {
+	            cy = 0;
+	            var a = psx * l2, b = psy * l2, ta = Math.atan2(ty, tx);
+	            var aa = a * a, bb = b * b, ll = l1 * l1, dd = tx * tx + ty * ty;
+	            var c0 = bb * ll + aa * dd - aa * bb, c1 = -2 * bb * l1, c2 = bb - aa;
+	            var d = c1 * c1 - 4 * c2 * c0;
+	            if (d >= 0) {
+	                var q = Math.sqrt(d);
+	                if (c1 < 0) q = -q;
+	                q = -(c1 + q) / 2;
+	                var r0 = q / c2, r1 = c0 / q;
+	                var r = Math.abs(r0) < Math.abs(r1) ? r0 : r1;
+	                if (r * r <= dd) {
+	                    var y = Math.sqrt(dd - r * r) * bendDir;
+	                    a1 = ta - Math.atan2(y, r);
+	                    a2 = Math.atan2(y / psy, (r - l1) / psx);
+	                    break outer;
+	                }
+	            }
+	            var minAngle = 0, minDist = Infinity, minX = 0, minY = 0;
+	            var maxAngle = 0, maxDist = 0, maxX = 0, maxY = 0;
+	            var x = l1 + a, dist = x * x;
+	            if (dist > maxDist) {
+	                maxAngle = 0;
+	                maxDist = dist;
+	                maxX = x;
+	            }
+	            x = l1 - a;
+	            dist = x * x;
+	            if (dist < minDist) {
+	                minAngle = Math.PI;
+	                minDist = dist;
+	                minX = x;
+	            }
+	            var angle = Math.acos(-a * l1 / (aa - bb));
+	            x = a * Math.cos(angle) + l1;
+	            var y = b * Math.sin(angle);
+	            dist = x * x + y * y;
+	            if (dist < minDist) {
+	                minAngle = angle;
+	                minDist = dist;
+	                minX = x;
+	                minY = y;
+	            }
+	            if (dist > maxDist) {
+	                maxAngle = angle;
+	                maxDist = dist;
+	                maxX = x;
+	                maxY = y;
+	            }
+	            if (dd <= (minDist + maxDist) / 2) {
+	                a1 = ta - Math.atan2(minY * bendDir, minX);
+	                a2 = minAngle * bendDir;
+	            } else {
+	                a1 = ta - Math.atan2(maxY * bendDir, maxX);
+	                a2 = maxAngle * bendDir;
+	            }
+	        }
+	    var offset = Math.atan2(cy, child.x) * sign2;
+	    a1 = (a1 - offset) * spine.radDeg + offset1;
+	    a2 = (a2 + offset) * spine.radDeg * sign2 + offset2;
+	    if (a1 > 180)
+	        a1 -= 360;
+	    else if (a1 < -180) a1 += 360;
+	    if (a2 > 180)
+	        a2 -= 360;
+	    else if (a2 < -180) a2 += 360;
+	    var rotation = parent.rotation;
+	    parent.rotationIK = rotation + (a1 - rotation) * alpha;
+	    rotation = child.rotation;
+	    child.rotationIK = rotation + (a2 - rotation) * alpha;
 	};
 	module.exports = spine.IkConstraint;
 	
 
 
 /***/ },
-/* 39 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9) || {};
@@ -2959,7 +3090,7 @@
 
 
 /***/ },
-/* 40 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9) || {};
@@ -3026,7 +3157,7 @@
 
 
 /***/ },
-/* 41 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
@@ -3082,7 +3213,7 @@
 
 
 /***/ },
-/* 42 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(8) || {};
@@ -3260,7 +3391,7 @@
 
 
 /***/ },
-/* 43 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
@@ -3350,13 +3481,13 @@
 
 
 /***/ },
-/* 44 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
 	spine.Bone = __webpack_require__(28);
-	spine.Slot = __webpack_require__(45);
-	spine.IkConstraint = __webpack_require__(38);
+	spine.Slot = __webpack_require__(43);
+	spine.IkConstraint = __webpack_require__(36);
 	spine.Skeleton = function (skeletonData)
 	{
 	    this.data = skeletonData;
@@ -3619,7 +3750,7 @@
 
 
 /***/ },
-/* 45 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
@@ -3673,33 +3804,40 @@
 
 
 /***/ },
-/* 46 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
-	spine.SkeletonData = __webpack_require__(43);
+	spine.SkeletonData = __webpack_require__(41);
 	spine.BoneData = __webpack_require__(27);
-	spine.IkConstraintData = __webpack_require__(37);
-	spine.SlotData = __webpack_require__(47);
-	spine.Skin = __webpack_require__(48);
+	spine.IkConstraintData = __webpack_require__(35);
+	spine.SlotData = __webpack_require__(45);
+	spine.Skin = __webpack_require__(46);
 	spine.EventData = __webpack_require__(31);
 	spine.AttachmentType = __webpack_require__(16);
 	spine.ColorTimeline = __webpack_require__(29);
 	spine.AttachmentTimeline = __webpack_require__(25);
-	spine.RotateTimeline = __webpack_require__(40);
-	spine.ScaleTimeline = __webpack_require__(41);
-	spine.TranslateTimeline = __webpack_require__(49);
-	spine.FlipXTimeline = __webpack_require__(35);
-	spine.FlipYTimeline = __webpack_require__(36);
-	spine.IkConstraintTimeline = __webpack_require__(39);
+	spine.RotateTimeline = __webpack_require__(38);
+	spine.ScaleTimeline = __webpack_require__(39);
+	spine.TranslateTimeline = __webpack_require__(47);
+	spine.IkConstraintTimeline = __webpack_require__(37);
 	spine.FfdTimeline = __webpack_require__(34);
 	spine.DrawOrderTimeline = __webpack_require__(30);
 	spine.EventTimeline = __webpack_require__(33);
 	spine.Event = __webpack_require__(32);
 	spine.Animation = __webpack_require__(10);
+	
+	function LinkedMesh(mesh, skin, slotIndex, parent) {
+	    this.mesh = mesh;
+	    this.skin = skin;
+	    this.slotIndex = slotIndex;
+	    this.parent = parent;
+	}
+	
 	spine.SkeletonJsonParser = function (attachmentLoader)
 	{
 	    this.attachmentLoader = attachmentLoader;
+	    this.linkedMeshes = [];
 	};
 	spine.SkeletonJsonParser.prototype = {
 	    scale: 1,
@@ -3736,8 +3874,6 @@
 	            boneData.rotation = (boneMap["rotation"] || 0);
 	            boneData.scaleX = boneMap.hasOwnProperty("scaleX") ? boneMap["scaleX"] : 1;
 	            boneData.scaleY = boneMap.hasOwnProperty("scaleY") ? boneMap["scaleY"] : 1;
-	            boneData.flipX = boneMap.hasOwnProperty("flipX") ? boneMap["flipX"] : false;
-	            boneData.flipY = boneMap.hasOwnProperty("flipY") ? boneMap["flipY"] : false;
 	            boneData.inheritScale = boneMap.hasOwnProperty("inheritScale") ? boneMap["inheritScale"] : true;
 	            boneData.inheritRotation = boneMap.hasOwnProperty("inheritRotation") ? boneMap["inheritRotation"] : true;
 	            skeletonData.bones.push(boneData);
@@ -3811,13 +3947,24 @@
 	                for (var attachmentName in slotEntry)
 	                {
 	                    if (!slotEntry.hasOwnProperty(attachmentName)) continue;
-	                    var attachment = this.readAttachment(skin, attachmentName, slotEntry[attachmentName]);
+	                    var attachment = this.readAttachment(skin, slotIndex, attachmentName, slotEntry[attachmentName]);
 	                    if (attachment) skin.addAttachment(slotIndex, attachmentName, attachment);
 	                }
 	            }
 	            skeletonData.skins.push(skin);
 	            if (skin.name == "default") skeletonData.defaultSkin = skin;
 	        }
+	
+	        var linkedMeshes = this.linkedMeshes;
+	        // Linked meshes.
+	        for (var i = 0, n = linkedMeshes.size; i < n; i++) {
+	            var linkedMesh = linkedMeshes[i];
+	            var skin = linkedMesh.skin ? skeletonData.findSkin(linkedMesh.skin): skeletonData.defaultSkin;
+	            var parent = skin.getAttachment(linkedMesh.slotIndex, linkedMesh.parent);
+	            linkedMesh.mesh.setParentMesh(parent);
+	            linkedMesh.mesh.updateUVs();
+	        }
+	        linkedMeshes.length = 0;
 	
 	        // Events.
 	        var events = root["events"];
@@ -3842,7 +3989,7 @@
 	
 	        return skeletonData;
 	    },
-	    readAttachment: function (skin, name, map)
+	    readAttachment: function (skin, slotIndex, name, map)
 	    {
 	        name = map["name"] || name;
 	
@@ -3874,73 +4021,6 @@
 	
 	            region.updateOffset();
 	            return region;
-	        } else if (type == spine.AttachmentType.mesh)
-	        {
-	            var mesh = this.attachmentLoader.newMeshAttachment(skin, name, path);
-	            if (!mesh) return null;
-	            mesh.path = path;
-	            mesh.vertices = this.getFloatArray(map, "vertices", scale);
-	            mesh.triangles = this.getIntArray(map, "triangles");
-	            mesh.regionUVs = this.getFloatArray(map, "uvs", 1);
-	            mesh.updateUVs();
-	
-	            color = map["color"];
-	            if (color)
-	            {
-	                mesh.r = this.toColor(color, 0);
-	                mesh.g = this.toColor(color, 1);
-	                mesh.b = this.toColor(color, 2);
-	                mesh.a = this.toColor(color, 3);
-	            }
-	
-	            mesh.hullLength = (map["hull"] || 0) * 2;
-	            if (map["edges"]) mesh.edges = this.getIntArray(map, "edges");
-	            mesh.width = (map["width"] || 0) * scale;
-	            mesh.height = (map["height"] || 0) * scale;
-	            return mesh;
-	        } else if (type == spine.AttachmentType.skinnedmesh || type == spine.AttachmentType.weightedmesh)
-	        {
-	            var mesh = this.attachmentLoader.newSkinnedMeshAttachment(skin, name, path);
-	            if (!mesh) return null;
-	            mesh.path = path;
-	
-	            var uvs = this.getFloatArray(map, "uvs", 1);
-	            var vertices = this.getFloatArray(map, "vertices", 1);
-	            var weights = [];
-	            var bones = [];
-	            for (var i = 0, n = vertices.length; i < n; )
-	            {
-	                var boneCount = vertices[i++] | 0;
-	                bones[bones.length] = boneCount;
-	                for (var nn = i + boneCount * 4; i < nn; )
-	                {
-	                    bones[bones.length] = vertices[i];
-	                    weights[weights.length] = vertices[i + 1] * scale;
-	                    weights[weights.length] = vertices[i + 2] * scale;
-	                    weights[weights.length] = vertices[i + 3];
-	                    i += 4;
-	                }
-	            }
-	            mesh.bones = bones;
-	            mesh.weights = weights;
-	            mesh.triangles = this.getIntArray(map, "triangles");
-	            mesh.regionUVs = uvs;
-	            mesh.updateUVs();
-	
-	            color = map["color"];
-	            if (color)
-	            {
-	                mesh.r = this.toColor(color, 0);
-	                mesh.g = this.toColor(color, 1);
-	                mesh.b = this.toColor(color, 2);
-	                mesh.a = this.toColor(color, 3);
-	            }
-	
-	            mesh.hullLength = (map["hull"] || 0) * 2;
-	            if (map["edges"]) mesh.edges = this.getIntArray(map, "edges");
-	            mesh.width = (map["width"] || 0) * scale;
-	            mesh.height = (map["height"] || 0) * scale;
-	            return mesh;
 	        } else if (type == spine.AttachmentType.boundingbox)
 	        {
 	            var attachment = this.attachmentLoader.newBoundingBoxAttachment(skin, name);
@@ -3948,6 +4028,83 @@
 	            for (var i = 0, n = vertices.length; i < n; i++)
 	                attachment.vertices.push(vertices[i] * scale);
 	            return attachment;
+	        } else if (type == spine.AttachmentType.mesh || type == spine.AttachmentType.linkedmesh)
+	        {
+	            var mesh = this.attachmentLoader.newMeshAttachment(skin, name, path);
+	            if (!mesh) return null;
+	            mesh.path = path;
+	            color = map["color"];
+	            if (color)
+	            {
+	                mesh.r = this.toColor(color, 0);
+	                mesh.g = this.toColor(color, 1);
+	                mesh.b = this.toColor(color, 2);
+	                mesh.a = this.toColor(color, 3);
+	            }
+	            mesh.width = (map["width"] || 0) * scale;
+	            mesh.height = (map["height"] || 0) * scale;
+	
+	            var parent = map["parent"];
+	            if (!parent) {
+	                mesh.vertices = this.getFloatArray(map, "vertices", scale);
+	                mesh.triangles = this.getIntArray(map, "triangles");
+	                mesh.regionUVs = this.getFloatArray(map, "uvs", 1);
+	                mesh.updateUVs();
+	                mesh.hullLength = (map["hull"] || 0) * 2;
+	                if (map["edges"]) mesh.edges = this.getIntArray(map, "edges");
+	            } else {
+	                mesh.inheritFFD = !!map["ffd"];
+	                this.linkedMeshes.push(new LinkedMesh(mesh, map["skin"] || null, slotIndex, parent));
+	            }
+	            return mesh;
+	        } else if (type == spine.AttachmentType.weightedmesh || type == spine.AttachmentType.weightedlinkedmesh)
+	        {
+	            var mesh = this.attachmentLoader.newWeightedMeshAttachment(skin, name, path);
+	            if (!mesh) return null;
+	            mesh.path = path;
+	            color = map["color"];
+	            if (color)
+	            {
+	                mesh.r = this.toColor(color, 0);
+	                mesh.g = this.toColor(color, 1);
+	                mesh.b = this.toColor(color, 2);
+	                mesh.a = this.toColor(color, 3);
+	            }
+	            mesh.width = (map["width"] || 0) * scale;
+	            mesh.height = (map["height"] || 0) * scale;
+	
+	            var parent = map["parent"];
+	            if (!parent) {
+	                var uvs = this.getFloatArray(map, "uvs", 1);
+	                var vertices = this.getFloatArray(map, "vertices", 1);
+	                var weights = [];
+	                var bones = [];
+	                for (var i = 0, n = vertices.length; i < n; )
+	                {
+	                    var boneCount = vertices[i++] | 0;
+	                    bones[bones.length] = boneCount;
+	                    for (var nn = i + boneCount * 4; i < nn; )
+	                    {
+	                        bones[bones.length] = vertices[i];
+	                        weights[weights.length] = vertices[i + 1] * scale;
+	                        weights[weights.length] = vertices[i + 2] * scale;
+	                        weights[weights.length] = vertices[i + 3];
+	                        i += 4;
+	                    }
+	                }
+	                mesh.bones = bones;
+	                mesh.weights = weights;
+	                mesh.triangles = this.getIntArray(map, "triangles");
+	                mesh.regionUVs = uvs;
+	                mesh.updateUVs();
+	
+	                mesh.hullLength = (map["hull"] || 0) * 2;
+	                if (map["edges"]) mesh.edges = this.getIntArray(map, "edges");
+	            } else {
+	                mesh.inheritFFD = !!map["ffd"];
+	                this.linkedMeshes.push(new LinkedMesh(mesh, map["skin"] || null, slotIndex, parent));
+	            }
+	            return mesh;
 	        }
 	        throw "Unknown attachment type: " + type;
 	    },
@@ -4063,20 +4220,7 @@
 	
 	                } else if (timelineName == "flipX" || timelineName == "flipY")
 	                {
-	                    var x = timelineName == "flipX";
-	                    var timeline = x ? new spine.FlipXTimeline(values.length) : new spine.FlipYTimeline(values.length);
-	                    timeline.boneIndex = boneIndex;
-	
-	                    var field = x ? "x" : "y";
-	                    var frameIndex = 0;
-	                    for (var i = 0, n = values.length; i < n; i++)
-	                    {
-	                        var valueMap = values[i];
-	                        timeline.setFrame(frameIndex, valueMap["time"], valueMap[field] || false);
-	                        frameIndex++;
-	                    }
-	                    timelines.push(timeline);
-	                    duration = Math.max(duration, timeline.frames[timeline.getFrameCount() * 2 - 2]);
+	                    throw "flipX and flipY are not supported in spine v3: (" + boneName + ")";
 	                } else
 	                    throw "Invalid timeline type for a bone: " + timelineName + " (" + boneName + ")";
 	            }
@@ -4286,7 +4430,7 @@
 
 
 /***/ },
-/* 47 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
@@ -4317,7 +4461,7 @@
 
 
 /***/ },
-/* 48 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
@@ -4356,7 +4500,7 @@
 
 
 /***/ },
-/* 49 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(9);
@@ -4412,12 +4556,12 @@
 
 
 /***/ },
-/* 50 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Resource = PIXI.loaders.Resource,
 	    spine = __webpack_require__(8),
-	    imageLoaderAdapter = __webpack_require__(51);
+	    imageLoaderAdapter = __webpack_require__(49);
 	
 	var atlasParser = module.exports = function () {
 	    return function (resource, next) {
@@ -4465,7 +4609,7 @@
 
 
 /***/ },
-/* 51 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var spine = __webpack_require__(8);
@@ -4486,19 +4630,19 @@
 
 
 /***/ },
-/* 52 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	    atlasParser: __webpack_require__(50),
-	    Loader: __webpack_require__(53),
+	    atlasParser: __webpack_require__(48),
+	    Loader: __webpack_require__(51),
 	    syncImageLoaderAdapter: __webpack_require__(24),
-	    imageLoaderAdapter: __webpack_require__(51)
+	    imageLoaderAdapter: __webpack_require__(49)
 	};
 
 
 /***/ },
-/* 53 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -4512,14 +4656,14 @@
 	 * @namespace PIXI.loaders
 	 */
 	
-	var atlasParser = __webpack_require__(50);
+	var atlasParser = __webpack_require__(48);
 	
 	PIXI.loaders.Loader.addPixiMiddleware(atlasParser);
 	PIXI.loader.use(atlasParser());
 
 
 /***/ },
-/* 54 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4617,7 +4761,7 @@
 	exports.default = helper;
 
 /***/ },
-/* 55 */
+/* 53 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4729,7 +4873,7 @@
 	exports.default = ResourceManager;
 
 /***/ },
-/* 56 */
+/* 54 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4801,7 +4945,7 @@
 	exports.default = SharedDirector;
 
 /***/ },
-/* 57 */
+/* 55 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4877,7 +5021,7 @@
 	exports.default = SRequest;
 
 /***/ },
-/* 58 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4886,7 +5030,7 @@
 	  value: true
 	});
 	
-	var _helper = __webpack_require__(54);
+	var _helper = __webpack_require__(52);
 	
 	var _helper2 = _interopRequireDefault(_helper);
 	
@@ -4938,7 +5082,7 @@
 	exports.default = BaseWorld;
 
 /***/ },
-/* 59 */
+/* 57 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4978,7 +5122,7 @@
 	exports.default = BaseLayer;
 
 /***/ },
-/* 60 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4987,11 +5131,11 @@
 	    value: true
 	});
 	
-	var _inherited = __webpack_require__(61);
+	var _inherited = __webpack_require__(59);
 	
 	var _inherited2 = _interopRequireDefault(_inherited);
 	
-	var _baseLayer = __webpack_require__(59);
+	var _baseLayer = __webpack_require__(57);
 	
 	var _baseLayer2 = _interopRequireDefault(_baseLayer);
 	
@@ -5020,7 +5164,7 @@
 	exports.default = ModelLayer;
 
 /***/ },
-/* 61 */
+/* 59 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5068,7 +5212,7 @@
 	exports.default = Inherited;
 
 /***/ },
-/* 62 */
+/* 60 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5128,7 +5272,7 @@
 	exports.default = Eventuality;
 
 /***/ },
-/* 63 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5139,27 +5283,27 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _petActor = __webpack_require__(64);
+	var _petActor = __webpack_require__(62);
 	
 	var _petActor2 = _interopRequireDefault(_petActor);
 	
-	var _gameDefines = __webpack_require__(65);
+	var _gameDefines = __webpack_require__(63);
 	
 	var _gameDefines2 = _interopRequireDefault(_gameDefines);
 	
-	var _menuLayer = __webpack_require__(66);
+	var _menuLayer = __webpack_require__(64);
 	
 	var _menuLayer2 = _interopRequireDefault(_menuLayer);
 	
-	var _test2World = __webpack_require__(71);
+	var _test2World = __webpack_require__(69);
 	
 	var _test2World2 = _interopRequireDefault(_test2World);
 	
-	var _resources = __webpack_require__(72);
+	var _resources = __webpack_require__(70);
 	
 	var _resources2 = _interopRequireDefault(_resources);
 	
-	var _skillListLayer = __webpack_require__(73);
+	var _skillListLayer = __webpack_require__(71);
 	
 	var _skillListLayer2 = _interopRequireDefault(_skillListLayer);
 	
@@ -5249,7 +5393,7 @@
 	exports.default = TestWorld;
 
 /***/ },
-/* 64 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5258,7 +5402,7 @@
 	  value: true
 	});
 	
-	var _gameDefines = __webpack_require__(65);
+	var _gameDefines = __webpack_require__(63);
 	
 	var _gameDefines2 = _interopRequireDefault(_gameDefines);
 	
@@ -5302,7 +5446,7 @@
 	exports.default = PetActor;
 
 /***/ },
-/* 65 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5340,7 +5484,7 @@
 	exports.default = defines;
 
 /***/ },
-/* 66 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5351,19 +5495,19 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _mainUi = __webpack_require__(67);
+	var _mainUi = __webpack_require__(65);
 	
 	var _mainUi2 = _interopRequireDefault(_mainUi);
 	
-	var _gameGlobal = __webpack_require__(68);
+	var _gameGlobal = __webpack_require__(66);
 	
 	var _gameGlobal2 = _interopRequireDefault(_gameGlobal);
 	
-	var _infoLayer = __webpack_require__(69);
+	var _infoLayer = __webpack_require__(67);
 	
 	var _infoLayer2 = _interopRequireDefault(_infoLayer);
 	
-	var _test2World = __webpack_require__(71);
+	var _test2World = __webpack_require__(69);
 	
 	var _test2World2 = _interopRequireDefault(_test2World);
 	
@@ -5401,7 +5545,7 @@
 	//module.exports = MenuLayer;
 
 /***/ },
-/* 67 */
+/* 65 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -5473,7 +5617,7 @@
 	};
 
 /***/ },
-/* 68 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5495,7 +5639,7 @@
 	exports.default = gameGlobal;
 
 /***/ },
-/* 69 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5506,7 +5650,7 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _infoDialogUi = __webpack_require__(70);
+	var _infoDialogUi = __webpack_require__(68);
 	
 	var _infoDialogUi2 = _interopRequireDefault(_infoDialogUi);
 	
@@ -5536,7 +5680,7 @@
 	exports.default = InfoLayer;
 
 /***/ },
-/* 70 */
+/* 68 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -5582,7 +5726,7 @@
 	};
 
 /***/ },
-/* 71 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5593,19 +5737,19 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _petActor2 = __webpack_require__(64);
+	var _petActor2 = __webpack_require__(62);
 	
 	var _petActor3 = _interopRequireDefault(_petActor2);
 	
-	var _gameDefines = __webpack_require__(65);
+	var _gameDefines = __webpack_require__(63);
 	
 	var _gameDefines2 = _interopRequireDefault(_gameDefines);
 	
-	var _gameGlobal = __webpack_require__(68);
+	var _gameGlobal = __webpack_require__(66);
 	
 	var _gameGlobal2 = _interopRequireDefault(_gameGlobal);
 	
-	var _testWorld = __webpack_require__(63);
+	var _testWorld = __webpack_require__(61);
 	
 	var _testWorld2 = _interopRequireDefault(_testWorld);
 	
@@ -5663,7 +5807,7 @@
 	exports.default = Test2World;
 
 /***/ },
-/* 72 */
+/* 70 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5671,129 +5815,11 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var res = {
-	  "json_kenney_atlas": "ui/kenney-theme/kenney-atlas.json",
-	  "png_cat_5": "cat_5.png",
-	  "png_down_grey_slide": "ui/kenney-theme/images/down-grey-slide.png",
-	  "json_cat_5": "cat_5.json",
-	  "png_sld_grey_line": "ui/kenney-theme/images/sld-grey-line.png",
-	  "png_bomb1_selected": "ui/img/bomb1-selected.png",
-	  "jpg_crusade_bg": "crusade-res/crusade_bg.jpg",
-	  "json_new_skill_ui": "new_skill_ui.json",
-	  "png_chongpeibutton": "ui/img/chongpeibutton.png",
-	  "png_sld_grey_bg": "ui/kenney-theme/images/sld-grey-bg.png",
-	  "fnt_Skranji_Bold_40": "ui/fonts/Skranji-Bold-40.fnt",
-	  "png_btn_blue_line_t_down": "ui/kenney-theme/images/btn-blue-line-t-down.png",
-	  "png_line": "ui/metalworks-theme/images/line.png",
-	  "png_kenney_theme": "ui/kenney-theme/kenney-theme.png",
-	  "png_chk_blue_checkmark": "ui/kenney-theme/images/chk-blue-checkmark.png",
-	  "png_bomb2_selected": "ui/img/bomb2-selected.png",
-	  "png_btn_blue_corner_bl_down": "ui/kenney-theme/images/btn-blue-corner-bl-down.png",
-	  "json_metalworks_theme": "ui/metalworks-theme/metalworks-theme.json",
-	  "png_icon_purifySkill_gary": "pet-home-res/icon_purifySkill_gary.png",
-	  "png_btn_grey_bg_down": "ui/kenney-theme/images/btn-grey-bg-down.png",
-	  "png_btn_grey_corner_br": "ui/kenney-theme/images/btn-grey-corner-br.png",
-	  "png_icon_fastPrompt_normal": "pet-home-res/icon_fastPrompt_normal.png",
-	  "json_kenney_theme": "ui/kenney-theme/kenney-theme.json",
-	  "png_gamelogo": "ui/img/gamelogo.png",
-	  "png_btn_grey_corner_bl": "ui/kenney-theme/images/btn-grey-corner-bl.png",
-	  "png_darkcnt_line": "ui/metalworks-theme/images/darkcnt-line.png",
-	  "png_bomb1": "ui/img/bomb1.png",
-	  "png_level_box": "ui/img/level-box.png",
-	  "png_bomb3": "ui/img/bomb3.png",
-	  "png_bomb2": "ui/img/bomb2.png",
-	  "png_btn_blue_corner_bl": "ui/kenney-theme/images/btn-blue-corner-bl.png",
-	  "png_btn_grey_line_b_down": "ui/kenney-theme/images/btn-grey-line-b-down.png",
-	  "png_kaishiyouxi_button": "ui/img/kaishiyouxi_button.png",
-	  "png_icon_fastPrompt_gary": "pet-home-res/icon_fastPrompt_gary.png",
-	  "png_bg": "ui/metalworks-theme/images/bg.png",
-	  "png_chk_grey_checkmark": "ui/kenney-theme/images/chk-grey-checkmark.png",
-	  "png_btn_blue_corner_br": "ui/kenney-theme/images/btn-blue-corner-br.png",
-	  "png_btn_blue_line_b": "ui/kenney-theme/images/btn-blue-line-b.png",
-	  "png_btn_bg": "ui/metalworks-theme/images/btn-bg.png",
-	  "png_icon_firmLife_select": "pet-home-res/icon_firmLife_select.png",
-	  "png_corner": "ui/metalworks-theme/images/corner.png",
-	  "png_radio_checkmark": "ui/metalworks-theme/images/radio-checkmark.png",
-	  "png_btn_blue_line_l": "ui/kenney-theme/images/btn-blue-line-l.png",
-	  "png_btn_blue_line_r": "ui/kenney-theme/images/btn-blue-line-r.png",
-	  "png_btn_grey_line_l_down": "ui/kenney-theme/images/btn-grey-line-l-down.png",
-	  "png_bg_down": "ui/metalworks-theme/images/bg-down.png",
-	  "png_btn_blue_line_t": "ui/kenney-theme/images/btn-blue-line-t.png",
-	  "png_btn_grey_corner_bl_down": "ui/kenney-theme/images/btn-grey-corner-bl-down.png",
-	  "png_radio_blue_check": "ui/kenney-theme/images/radio-blue-check.png",
-	  "png_btn_blue_line_b_down": "ui/kenney-theme/images/btn-blue-line-b-down.png",
-	  "png_btn_grey_line_t_down": "ui/kenney-theme/images/btn-grey-line-t-down.png",
-	  "png_icon_firmLife_gary": "pet-home-res/icon_firmLife_gary.png",
-	  "png_jineng_bg": "ui/img/jineng_bg.png",
-	  "png_btn_blue_corner_tr": "ui/kenney-theme/images/btn-blue-corner-tr.png",
-	  "png_btn_blue_line_l_down": "ui/kenney-theme/images/btn-blue-line-l-down.png",
-	  "png_icon_purifySkill_select": "pet-home-res/icon_purifySkill_select.png",
-	  "png_btn_blue_bg": "ui/kenney-theme/images/btn-blue-bg.png",
-	  "png_btn_grey_corner_tl_down": "ui/kenney-theme/images/btn-grey-corner-tl-down.png",
-	  "png_icon_injurePlus_normal": "pet-home-res/icon_injurePlus_normal.png",
-	  "png_new_skill_ui": "new_skill_ui.png",
-	  "png_sld_grey_corner": "ui/kenney-theme/images/sld-grey-corner.png",
-	  "png_panel_650x400": "ui/img/panel-650x400.png",
-	  "png_pet1": "pet1.png",
-	  "png_pet3": "pet3.png",
-	  "png_pet2": "pet2.png",
-	  "png_icon_injurePlus_select": "pet-home-res/icon_injurePlus_select.png",
-	  "png_btn_grey_line_r_down": "ui/kenney-theme/images/btn-grey-line-r-down.png",
-	  "png_icon_fastEnergy_normal": "pet-home-res/icon_fastEnergy_normal.png",
-	  "png_wnd_grey_bg": "ui/kenney-theme/images/wnd-grey-bg.png",
-	  "fnt_desyrel": "ui/fonts/desyrel.fnt",
-	  "png_star2": "ui/img/star2.png",
-	  "png_icon_firmLife_normal": "pet-home-res/icon_firmLife_normal.png",
-	  "png_icon_fastEnergy_select": "pet-home-res/icon_fastEnergy_select.png",
-	  "png_btn_grey_line_r": "ui/kenney-theme/images/btn-grey-line-r.png",
-	  "png_btn_grey_line_t": "ui/kenney-theme/images/btn-grey-line-t.png",
-	  "png_btn_blue_corner_tl_down": "ui/kenney-theme/images/btn-blue-corner-tl-down.png",
-	  "png_chk_checkmark": "ui/metalworks-theme/images/chk-checkmark.png",
-	  "png_btn_grey_line_b": "ui/kenney-theme/images/btn-grey-line-b.png",
-	  "json_pet1": "pet1.json",
-	  "json_pet3": "pet3.json",
-	  "json_pet2": "pet2.json",
-	  "png_icon_fastPrompt_select": "pet-home-res/icon_fastPrompt_select.png",
-	  "png_btn_grey_line_l": "ui/kenney-theme/images/btn-grey-line-l.png",
-	  "png_wnd_grey_line": "ui/kenney-theme/images/wnd-grey-line.png",
-	  "png_btn_corner": "ui/metalworks-theme/images/btn-corner.png",
-	  "png_darkcnt_corner": "ui/metalworks-theme/images/darkcnt-corner.png",
-	  "png_btn_line": "ui/metalworks-theme/images/btn-line.png",
-	  "png_btn_grey_corner_tr_down": "ui/kenney-theme/images/btn-grey-corner-tr-down.png",
-	  "png_chk_grey_corner": "ui/kenney-theme/images/chk-grey-corner.png",
-	  "png_btn_bg_down": "ui/metalworks-theme/images/btn-bg-down.png",
-	  "png_btn_blue_corner_br_down": "ui/kenney-theme/images/btn-blue-corner-br-down.png",
-	  "png_bomb3_selected": "ui/img/bomb3-selected.png",
-	  "png_btn_grey_corner_br_down": "ui/kenney-theme/images/btn-grey-corner-br-down.png",
-	  "png_btn_blue_line_r_down": "ui/kenney-theme/images/btn-blue-line-r-down.png",
-	  "png_btn_blue_corner_tr_down": "ui/kenney-theme/images/btn-blue-corner-tr-down.png",
-	  "png_icon_purifySkill_normal": "pet-home-res/icon_purifySkill_normal.png",
-	  "png_wnd_grey_corner": "ui/kenney-theme/images/wnd-grey-corner.png",
-	  "png_btn_grey_corner_tl": "ui/kenney-theme/images/btn-grey-corner-tl.png",
-	  "png_Skranji_Bold_40": "ui/fonts/Skranji-Bold-40.png",
-	  "png_btn_grey_bg": "ui/kenney-theme/images/btn-grey-bg.png",
-	  "png_btn_blue_corner_tl": "ui/kenney-theme/images/btn-blue-corner-tl.png",
-	  "png_down_grey_slide_down": "ui/kenney-theme/images/down-grey-slide-down.png",
-	  "png_lvlcomplete": "ui/img/lvlcomplete.png",
-	  "png_orange_btn": "ui/img/orange-btn.png",
-	  "png_icon_injurePlus_gary": "pet-home-res/icon_injurePlus_gary.png",
-	  "png_btn_grey_corner_tr": "ui/kenney-theme/images/btn-grey-corner-tr.png",
-	  "png_feathers_metal_works_desktop_theme": "ui/metalworks-theme/feathers-metal-works-desktop-theme.png",
-	  "png_icon_fastEnergy_gary": "pet-home-res/icon_fastEnergy_gary.png",
-	  "png_desyrel": "ui/fonts/desyrel.png",
-	  "png_jineng_0": "ui/img/jineng_0.png",
-	  "png_jineng_1": "ui/img/jineng_1.png",
-	  "png_jineng_2": "ui/img/jineng_2.png",
-	  "png_jineng_3": "ui/img/jineng_3.png",
-	  "png_jineng_4": "ui/img/jineng_4.png",
-	  "png_header_bg": "ui/metalworks-theme/images/header-bg.png",
-	  "png_radio_grey_check": "ui/kenney-theme/images/radio-grey-check.png",
-	  "png_btn_blue_bg_down": "ui/kenney-theme/images/btn-blue-bg-down.png"
-	};
+	var res = { "png_bomb1": "ui/img/bomb1.png", "png_level_box": "ui/img/level-box.png", "png_bomb3": "ui/img/bomb3.png", "png_bomb2": "ui/img/bomb2.png", "png_btn_blue_corner_bl": "ui/kenney-theme/images/btn-blue-corner-bl.png", "png_radio_blue_check": "ui/kenney-theme/images/radio-blue-check.png", "png_btn_grey_line_b_down": "ui/kenney-theme/images/btn-grey-line-b-down.png", "png_panel_650x400": "ui/img/panel-650x400.png", "png_kaishiyouxi_button": "ui/img/kaishiyouxi_button.png", "png_btn_grey_corner_tr_down": "ui/kenney-theme/images/btn-grey-corner-tr-down.png", "png_bg": "ui/kenney-theme/images/bg.png", "png_sld_grey_corner": "ui/kenney-theme/images/sld-grey-corner.png", "png_btn_grey_line_l": "ui/kenney-theme/images/btn-grey-line-l.png", "png_da": "ui/img/da.png", "png_chk_grey_corner": "ui/kenney-theme/images/chk-grey-corner.png", "png_chk_grey_checkmark": "ui/kenney-theme/images/chk-grey-checkmark.png", "png_btn_grey_line_r_down": "ui/kenney-theme/images/btn-grey-line-r-down.png", "png_btn_blue_corner_br": "ui/kenney-theme/images/btn-blue-corner-br.png", "png_down_grey_slide": "ui/kenney-theme/images/down-grey-slide.png", "fnt_desyrel": "ui/fonts/desyrel.fnt", "png_wnd_grey_bg": "ui/kenney-theme/images/wnd-grey-bg.png", "png_btn_grey_line_t": "ui/kenney-theme/images/btn-grey-line-t.png", "png_btn_blue_corner_br_down": "ui/kenney-theme/images/btn-blue-corner-br-down.png", "json_kenney_theme": "ui/kenney-theme/kenney-theme.json", "png_bomb3_selected": "ui/img/bomb3-selected.png", "png_sld_grey_line": "ui/kenney-theme/images/sld-grey-line.png", "png_bomb1_selected": "ui/img/bomb1-selected.png", "png_btn_grey_corner_br_down": "ui/kenney-theme/images/btn-grey-corner-br-down.png", "png_btn_grey_line_b": "ui/kenney-theme/images/btn-grey-line-b.png", "png_wnd_grey_corner": "ui/kenney-theme/images/wnd-grey-corner.png", "png_btn_blue_line_l": "ui/kenney-theme/images/btn-blue-line-l.png", "png_chongpeibutton": "ui/img/chongpeibutton.png", "png_btn_blue_line_r": "ui/kenney-theme/images/btn-blue-line-r.png", "png_btn_grey_line_l_down": "ui/kenney-theme/images/btn-grey-line-l-down.png", "png_jineng_3": "ui/img/jineng_3.png", "png_sld_grey_bg": "ui/kenney-theme/images/sld-grey-bg.png", "png_btn_blue_line_r_down": "ui/kenney-theme/images/btn-blue-line-r-down.png", "png_btn_grey_line_t_down": "ui/kenney-theme/images/btn-grey-line-t-down.png", "fnt_Skranji_Bold_40": "ui/fonts/Skranji-Bold-40.fnt", "png_btn_blue_corner_tr_down": "ui/kenney-theme/images/btn-blue-corner-tr-down.png", "png_btn_blue_line_t_down": "ui/kenney-theme/images/btn-blue-line-t-down.png", "png_btn_grey_corner_bl": "ui/kenney-theme/images/btn-grey-corner-bl.png", "png_btn_blue_line_b": "ui/kenney-theme/images/btn-blue-line-b.png", "png_btn_grey_corner_tl": "ui/kenney-theme/images/btn-grey-corner-tl.png", "png_Skranji_Bold_40": "ui/fonts/Skranji-Bold-40.png", "png_btn_blue_line_t": "ui/kenney-theme/images/btn-blue-line-t.png", "png_btn_blue_line_b_down": "ui/kenney-theme/images/btn-blue-line-b-down.png", "png_kenney_theme": "ui/kenney-theme/kenney-theme.png", "png_btn_blue_corner_tl_down": "ui/kenney-theme/images/btn-blue-corner-tl-down.png", "png_btn_grey_line_r": "ui/kenney-theme/images/btn-grey-line-r.png", "png_btn_grey_bg": "ui/kenney-theme/images/btn-grey-bg.png", "png_btn_blue_corner_tl": "ui/kenney-theme/images/btn-blue-corner-tl.png", "png_down_grey_slide_down": "ui/kenney-theme/images/down-grey-slide-down.png", "png_lvlcomplete": "ui/img/lvlcomplete.png", "png_orange_btn": "ui/img/orange-btn.png", "png_star2": "ui/img/star2.png", "png_bomb2_selected": "ui/img/bomb2-selected.png", "png_btn_blue_corner_bl_down": "ui/kenney-theme/images/btn-blue-corner-bl-down.png", "json_kenney_atlas": "ui/kenney-theme/kenney-atlas.json", "png_wnd_grey_line": "ui/kenney-theme/images/wnd-grey-line.png", "png_btn_grey_corner_tr": "ui/kenney-theme/images/btn-grey-corner-tr.png", "png_jineng_bg": "ui/img/jineng_bg.png", "png_btn_blue_corner_tr": "ui/kenney-theme/images/btn-blue-corner-tr.png", "png_chk_blue_checkmark": "ui/kenney-theme/images/chk-blue-checkmark.png", "png_btn_blue_line_l_down": "ui/kenney-theme/images/btn-blue-line-l-down.png", "png_btn_grey_bg_down": "ui/kenney-theme/images/btn-grey-bg-down.png", "png_btn_grey_corner_br": "ui/kenney-theme/images/btn-grey-corner-br.png", "png_btn_blue_bg": "ui/kenney-theme/images/btn-blue-bg.png", "png_desyrel": "ui/fonts/desyrel.png", "png_btn_grey_corner_tl_down": "ui/kenney-theme/images/btn-grey-corner-tl-down.png", "png_jineng_0": "ui/img/jineng_0.png", "png_jineng_1": "ui/img/jineng_1.png", "png_jineng_2": "ui/img/jineng_2.png", "png_gamelogo": "ui/img/gamelogo.png", "png_jineng_4": "ui/img/jineng_4.png", "png_btn_grey_corner_bl_down": "ui/kenney-theme/images/btn-grey-corner-bl-down.png", "png_radio_grey_check": "ui/kenney-theme/images/radio-grey-check.png", "png_btn_blue_bg_down": "ui/kenney-theme/images/btn-blue-bg-down.png" };
 	exports.default = res;
 
 /***/ },
-/* 73 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5804,9 +5830,9 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _skillListUi = __webpack_require__(74);
+	var _skillListUi = __webpack_require__(72);
 	
-	var _skillUpgradeLayer = __webpack_require__(75);
+	var _skillUpgradeLayer = __webpack_require__(73);
 	
 	var _skillUpgradeLayer2 = _interopRequireDefault(_skillUpgradeLayer);
 	
@@ -5848,7 +5874,7 @@
 	exports.default = SkillLayer;
 
 /***/ },
-/* 74 */
+/* 72 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -5975,7 +6001,7 @@
 	exports.SkillLabel = SkillLabel;
 
 /***/ },
-/* 75 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5986,7 +6012,7 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _skillUpgradeUi = __webpack_require__(76);
+	var _skillUpgradeUi = __webpack_require__(74);
 	
 	var _skillUpgradeUi2 = _interopRequireDefault(_skillUpgradeUi);
 	
@@ -6018,7 +6044,7 @@
 	exports.default = SkillUpgradeLayer;
 
 /***/ },
-/* 76 */
+/* 74 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -6095,7 +6121,7 @@
 	exports.default = SkillUpgradeUI;
 
 /***/ },
-/* 77 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6107,27 +6133,27 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _petActor = __webpack_require__(64);
+	var _petActor = __webpack_require__(62);
 	
 	var _petActor2 = _interopRequireDefault(_petActor);
 	
-	var _gameDefines = __webpack_require__(65);
+	var _gameDefines = __webpack_require__(63);
 	
 	var _gameDefines2 = _interopRequireDefault(_gameDefines);
 	
-	var _gameGlobal = __webpack_require__(68);
+	var _gameGlobal = __webpack_require__(66);
 	
 	var _gameGlobal2 = _interopRequireDefault(_gameGlobal);
 	
-	var _defenseLogLayer = __webpack_require__(78);
+	var _defenseLogLayer = __webpack_require__(76);
 	
 	var _defenseLogLayer2 = _interopRequireDefault(_defenseLogLayer);
 	
-	var _defenseLogUi = __webpack_require__(79);
+	var _defenseLogUi = __webpack_require__(77);
 	
 	var _defenseLogUi2 = _interopRequireDefault(_defenseLogUi);
 	
-	var _resources = __webpack_require__(72);
+	var _resources = __webpack_require__(70);
 	
 	var _resources2 = _interopRequireDefault(_resources);
 	
@@ -6184,7 +6210,7 @@
 	   */
 
 /***/ },
-/* 78 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6196,11 +6222,11 @@
 	
 	var _imports = __webpack_require__(1);
 	
-	var _gameGlobal = __webpack_require__(68);
+	var _gameGlobal = __webpack_require__(66);
 	
 	var _gameGlobal2 = _interopRequireDefault(_gameGlobal);
 	
-	var _gameDefines = __webpack_require__(65);
+	var _gameDefines = __webpack_require__(63);
 	
 	var _gameDefines2 = _interopRequireDefault(_gameDefines);
 	
@@ -6292,7 +6318,7 @@
 	   */
 
 /***/ },
-/* 79 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6302,11 +6328,11 @@
 	});
 	exports.default = DefenseLogUI;
 	
-	var _gameGlobal = __webpack_require__(68);
+	var _gameGlobal = __webpack_require__(66);
 	
 	var _gameGlobal2 = _interopRequireDefault(_gameGlobal);
 	
-	var _gameDefines = __webpack_require__(65);
+	var _gameDefines = __webpack_require__(63);
 	
 	var _gameDefines2 = _interopRequireDefault(_gameDefines);
 	
@@ -6371,70 +6397,7 @@
 	}
 
 /***/ },
-/* 80 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _imports = __webpack_require__(1);
-	
-	var _resources = __webpack_require__(72);
-	
-	var _resources2 = _interopRequireDefault(_resources);
-	
-	var _petActor = __webpack_require__(64);
-	
-	var _petActor2 = _interopRequireDefault(_petActor);
-	
-	var _gameDefines = __webpack_require__(65);
-	
-	var _gameDefines2 = _interopRequireDefault(_gameDefines);
-	
-	var _petHomeUi = __webpack_require__(81);
-	
-	var _petHomeUi2 = _interopRequireDefault(_petHomeUi);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var PetHome = function PetHome() {
-	  var that = (0, _imports.Inherited)((0, _imports.BaseWorld)());
-	
-	  that.inheritOn('init', function () {
-	    _imports.ResourceManager.load(_resources2.default.png_bj, function () {
-	      var bac = _imports.Helper.createSprite(_resources2.default.png_bj);
-	      that.node.addChild(bac);
-	    });
-	    _imports.ResourceManager.load(_resources2.default.json_cat_5, function (res) {
-	      var options = {
-	        type: "spine",
-	        spineData: res.spineData
-	      };
-	      var cat = (0, _petActor2.default)(options);
-	      cat.init(that.node);
-	      cat.node.position.x = _gameDefines2.default.Canvas.posX_center;
-	      cat.node.position.y = 550;
-	      cat.node.zorder = 4;
-	      _imports.Helper.reorderNode(that.node);
-	    });
-	
-	    return true;
-	  });
-	
-	  that.inheritOn('update', function () {});
-	
-	  return that;
-	}; /**
-	    * Created by guolei on 16/4/1.
-	    */
-	
-	exports.default = PetHome;
-
-/***/ },
-/* 81 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6443,61 +6406,177 @@
 	  value: true
 	});
 	
-	var _gameDefines = __webpack_require__(65);
+	var _imports = __webpack_require__(1);
+	
+	var _resources = __webpack_require__(70);
+	
+	var _resources2 = _interopRequireDefault(_resources);
+	
+	var _gameDefines = __webpack_require__(63);
 	
 	var _gameDefines2 = _interopRequireDefault(_gameDefines);
 	
-	var _resources = __webpack_require__(72);
+	var _stoneAtlas = __webpack_require__(79);
+	
+	var _stoneAtlas2 = _interopRequireDefault(_stoneAtlas);
+	
+	var _stonesRow = __webpack_require__(80);
+	
+	var _stonesRow2 = _interopRequireDefault(_stonesRow);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var CrazyStone = function CrazyStone() {
+	  var that = (0, _imports.Inherited)((0, _imports.BaseWorld)());
+	
+	  var _guard_line = 200;
+	  var _stone_init_array = [[0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 0, 1], [1, 1, 1, 0], [1, 1, 0, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 0, 1]];
+	
+	  var StonesRowList = [(0, _stonesRow2.default)(), (0, _stonesRow2.default)(), (0, _stonesRow2.default)(), (0, _stonesRow2.default)()];
+	
+	  that.inheritOn('init', function () {
+	    drawBac();
+	    initStones();
+	    return true;
+	  });
+	
+	  that.inheritOn('update', function (dt) {
+	    for (var i = 0; i < StonesRowList.length; i++) {
+	      StonesRowList[i].update(dt);
+	    }
+	  });
+	
+	  var initStones = function initStones() {
+	    for (var i = 0; i < _stone_init_array.length; i++) {
+	      for (var j = 0; j < _stone_init_array[i].length; j++) {
+	        var stone = (0, _stoneAtlas2.default)();
+	        stone.initWithData(_stone_init_array[i][j]);
+	        stone.node.position.x = ((j + 1) * 2 - 1) / 8 * _gameDefines2.default.Canvas.width;
+	        stone.node.position.y = i * stone.height - (_gameDefines2.default.Canvas.height - _guard_line);
+	        that.node.addChild(stone.node);
+	        StonesRowList[j].addStone(stone);
+	      }
+	    }
+	  };
+	
+	  var drawBac = function drawBac() {
+	    var graphics = new PIXI.Graphics();
+	
+	    graphics.beginFill(0xF5F5DC, 1);
+	    graphics.drawRect(0, 0, _gameDefines2.default.Canvas.width, _gameDefines2.default.Canvas.height);
+	    graphics.endFill();
+	
+	    graphics.beginFill(0x8B8378, 1);
+	    graphics.drawRect(_gameDefines2.default.Canvas.width / 4, 0, _gameDefines2.default.Canvas.width / 4, _gameDefines2.default.Canvas.height);
+	    graphics.endFill();
+	
+	    graphics.beginFill(0x8B8378, 1);
+	    graphics.drawRect(_gameDefines2.default.Canvas.width / 4 * 3, 0, _gameDefines2.default.Canvas.width / 4, _gameDefines2.default.Canvas.height);
+	    graphics.endFill();
+	
+	    graphics.beginFill(0xFF0000, 1);
+	    graphics.drawRect(0, _guard_line, _gameDefines2.default.Canvas.width, 10);
+	    graphics.endFill();
+	
+	    that.node.addChild(graphics);
+	  };
+	  return that;
+	}; /**
+	    * Created by guolei on 16/4/13.
+	    */
+	
+	exports.default = CrazyStone;
+
+/***/ },
+/* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _imports = __webpack_require__(1);
+	
+	var _resources = __webpack_require__(70);
 	
 	var _resources2 = _interopRequireDefault(_resources);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/**
-	 * Created by guolei on 16/4/7.
+	 * Created by guolei on 16/4/13.
 	 */
 	
-	var PetHomeUI = function PetHomeUI() {
+	var StoneAtlas = function StoneAtlas() {
 	  var that = {};
-	  that.node = {
-	    id: "skillLabel",
-	    component: 'Layout',
-	    position: { x: 0, y: 0 },
-	    width: _gameDefines2.default.Canvas.width,
-	    height: _gameDefines2.default.Canvas.height,
-	    layout: [1, 2],
-	    children: [{
-	      id: 'btn2',
-	      text: 'btn',
-	      font: {
-	        size: '42px',
-	        family: 'Skranji',
-	        color: 'red'
-	      },
-	      component: 'Button',
-	      skin: 'bluebutton',
-	      position: 'center',
-	      width: 190,
-	      height: 80
-	    }, {
-	      id: 'btn2',
-	      text: 'btn',
-	      font: {
-	        size: '42px',
-	        family: 'Skranji',
-	        color: 'red'
-	      },
-	      component: 'Button',
-	      skin: 'bluebutton',
-	      position: 'center',
-	      width: 190,
-	      height: 80
-	    }]
+	  that.type = 0;
+	  that.node = new PIXI.Container();
+	  that.height = 89;
+	  that.speed = 2;
+	
+	  that.initWithData = function (data) {
+	    if (data === 1) {
+	      _imports.ResourceManager.load(_resources2.default.png_jineng_0, function () {
+	        var sprite = _imports.Helper.createSprite(_resources2.default.png_jineng_0);
+	        sprite.anchor.x = 0.5;
+	        sprite.anchor.y = 0.5;
+	        that.node.addChild(sprite);
+	      });
+	    }
+	  };
+	
+	  that.bomb = function () {
+	    that.node.visible = false;
+	  };
+	
+	  that.update = function (dt) {
+	    that.node.position.y += that.speed;
 	  };
 	
 	  return that;
 	};
-	exports.default = PetHomeUI;
+	exports.default = StoneAtlas;
+
+/***/ },
+/* 80 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * Created by guolei on 16/4/13.
+	 */
+	var StonesRow = function StonesRow() {
+	  var that = {};
+	  var _row_list = [];
+	
+	  that.addStone = function (stone) {
+	    _row_list.push(stone);
+	  };
+	
+	  that.checkBomb = function () {
+	    for (var i = 0; i < _row_list.length; i++) {
+	      var stone = _row_list[i];
+	      if (stone.type !== 0) {
+	        //return _row_list[i-1];
+	      }
+	    }
+	  };
+	
+	  that.update = function (dt) {
+	    for (var i = 0; i < _row_list.length; i++) {
+	      _row_list[i].update(dt);
+	    }
+	  };
+	
+	  return that;
+	};
+	exports.default = StonesRow;
 
 /***/ }
 /******/ ]);

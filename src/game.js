@@ -11,7 +11,7 @@ import CrusadeWorld from "./game/crusade-world.js"
 import gameGlobal from "./game-global.js"
 import defines from "./game-defines.js"
 import resources from "./resources.js"
-import petHome from './game/pet-home/pet-home-world'
+import CrazyStone from './game/crazy-stones/crazy-stone-world'
 
 window.onload = function () {
   // create an new instance of a pixi stage
@@ -22,24 +22,15 @@ window.onload = function () {
   ResourceManager.setResPath(defines.resPath);
   ResourceManager.loadUI(resources.json_kenney_theme, function () {
 
-
-
-    const  testWorld = TestWorld();
+    const  testWorld = CrazyStone();
     testWorld.init();
     director.startWorld(testWorld);
     Helper.scaleToWindow(director.renderer, director.runningWorld.node);
-    SRequest.get(defines.gameURL, "s/Info/GetBag", {test: 1, name:"haha"}, function (data) {
-      console.log('resp 1' + JSON.stringify(data) );
-    });
 
-    SRequest.post(defines.gameURL, "s/Info/RenamePet", {"pet_id": 1000}, function (data) {
-      console.log('resp 2' + JSON.stringify(data) );
-    })
     window.addEventListener("resize", function(event){
       Helper.scaleToWindow(director.renderer, director.runningWorld.node);
     });
 
-    PIXI.CanvasGraphics
   });
 
 

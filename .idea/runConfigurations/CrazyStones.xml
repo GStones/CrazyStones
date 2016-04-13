@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CrazyStones" type="JavascriptDebugType" factoryName="JavaScript Debug" uri="http://192.168.31.248:8100/CrazyStones/dev.html">
+    <mapping url="webpack:///." local-file="$PROJECT_DIR$" />
+    <mapping url="http://localhost:8100/CrazyStones/build" local-file="$PROJECT_DIR$/build" />
+    <method />
+  </configuration>
+</component>

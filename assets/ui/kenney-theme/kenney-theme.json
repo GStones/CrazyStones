@@ -34,7 +34,6 @@
         "line": " "
     },
     "Layout": {
-        "bgPadding": 1,
         "bg": "",
         "corner": " ",
         "line": " "
@@ -63,16 +62,9 @@
         "line": ""
     },
     "Button": {
-        "bgPadding": 6,
-        "bg": "btn-grey-bg.png",
-        "corner-tl": { "default": "btn-grey-corner-tl.png" },
-        "corner-tr": { "default": "btn-grey-corner-tr.png" },
-        "corner-bl": { "default": "btn-grey-corner-bl.png", "down": "btn-grey-corner-bl-down.png" },
-        "corner-br": { "default": "btn-grey-corner-br.png", "down": "btn-grey-corner-br-down.png" },
-        "line-t": { "default": "btn-grey-line-t.png" },
-        "line-r": { "default": "btn-grey-line-r.png" },
-        "line-b": { "default": "btn-grey-line-b.png", "down": "btn-grey-line-b-down.png" },
-        "line-l": { "default": "btn-grey-line-l.png" }
+        "bg": "",
+        "corner": "",
+        "line": ""
     },
     "bluebutton": {
         "bgPadding": 6,
