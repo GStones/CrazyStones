@@ -6,50 +6,67 @@ import res from '../../resources';
 import define from '../../game-defines'
 import StoneAtlas from './stone-atlas'
 import StonesRow from './stones-row'
+import StonesLine from  './stones-line'
 
 const CrazyStone = (()=> {
   let that = Inherited(BaseWorld());
 
   let _guard_line = 200;
-  let _stone_init_array = [
-    [0, 1, 1, 1],
-    [1, 0, 1, 1],
-    [1, 1, 0, 1],
-    [1, 1, 1, 0],
-    [1, 1, 0, 1],
-    [1, 0, 1, 1],
-    [0, 1, 1, 1],
-    [1, 0, 1, 1],
-    [1, 1, 0, 1]
-  ];
 
-  const StonesRowList = [StonesRow(), StonesRow(), StonesRow(), StonesRow()];
-
+  let _all_stone_list = [];
 
   that.inheritOn('init', ()=> {
     drawBac();
-    initStones();
+    for (let i = 0; i < 9; i++) {
+      initStones();
+    }
+    that.node.interactive = true;
+    that.node.on('click', function (event) {
+      for (let i = 0; i < _all_stone_list.length; i++) {
+        let row = checkClickRow(event.data.global.x);
+        let stoneLine = _all_stone_list[i];
+        if (!stoneLine.checkBomb(row)) {
+          break;
+        }
+        _all_stone_list.shift();
+
+        initStones();
+        i--;
+      }
+    });
     return true;
   });
 
   that.inheritOn('update', (dt)=> {
-    for (let i = 0; i < StonesRowList.length; i++) {
-      StonesRowList[i].update(dt);
+    for (let i = 0; i < _all_stone_list.length; i++) {
+      _all_stone_list[i].update(dt);
     }
   });
 
+  const checkClickRow = ((x)=> {
+    let row = 0;
+    if (x >= 0 && x < define.Canvas.width * 0.25) {
+      row = 0;
+    } else if (x >= define.Canvas.width * 0.25 && x < define.Canvas.width * 0.5) {
+      row = 1;
+    } else if (x >= define.Canvas.width * 0.5 && x < define.Canvas.width * 0.75) {
+      row = 2;
+    } else if (x >= define.Canvas.width * 0.75 && x < define.Canvas.width) {
+      row = 3;
+    }
+    return row;
+  });
 
   const initStones = (()=> {
-    for (let i = 0; i < _stone_init_array.length; i++) {
-      for (let j = 0; j < _stone_init_array[i].length; j++) {
-        let stone = StoneAtlas();
-        stone.initWithData(_stone_init_array[i][j]);
-        stone.node.position.x = ((j + 1) * 2 - 1) / 8 * define.Canvas.width;
-        stone.node.position.y = i * stone.height - (define.Canvas.height - _guard_line);
-        that.node.addChild(stone.node);
-        StonesRowList[j].addStone(stone);
-      }
+    let line = StonesLine();
+    line.randomLineStone(1);
+    if (_all_stone_list.length > 0) {
+      line.node.position.y = _all_stone_list[_all_stone_list.length - 1].node.position.y - 89;
+    } else {
+      line.node.position.y = _guard_line;
     }
+    that.node.addChild(line.node);
+    _all_stone_list.push(line);
   });
 
   const drawBac = (()=> {

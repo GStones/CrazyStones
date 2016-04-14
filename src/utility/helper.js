@@ -72,20 +72,24 @@ helper.wordWrapText = function (textObj, string) {
   let textWidth = textObj.width;//***保留此行 计算宽度
   if (!wordWrap) {
     return;
-};
+  }
   let newStr = "";
   let wordWrapLeftWidth = wordWrapWidth;
   for (let i = 0; i < textString.length; i++) {
     let width = textObj.context.measureText(textString[i]).width;
     if (wordWrapLeftWidth < width) {
       wordWrapLeftWidth = wordWrapWidth;
-      newStr = newStr +  "\n" ;
+      newStr = newStr + "\n";
     }
     newStr += textString[i];
     wordWrapLeftWidth -= width;
   }
   textObj.text = newStr;
 };
+helper.randomInt = ((min, max)=> {
+  let num = Math.random() * (max - min) + min;
+  return Math.floor(num);
+});
 
 
 export default helper;

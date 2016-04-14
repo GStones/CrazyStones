@@ -12,6 +12,7 @@ let StoneAtlas = (()=> {
 
   that.initWithData = ((data)=> {
     if (data===1) {
+      that.type = data;
       ResourceManager.load(res.png_jineng_0, ()=> {
         let sprite = Helper.createSprite(res.png_jineng_0);
         sprite.anchor.x = 0.5;
@@ -23,10 +24,11 @@ let StoneAtlas = (()=> {
 
   that.bomb = (()=> {
     that.node.visible = false;
+    that.type = 0;
   });
 
   that.update = function (dt) {
-    that.node.position.y += that.speed;
+    //that.node.position.y += that.speed;
   };
 
 

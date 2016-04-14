@@ -4743,7 +4743,7 @@
 	  var textWidth = textObj.width; //***保留此行 计算宽度
 	  if (!wordWrap) {
 	    return;
-	  };
+	  }
 	  var newStr = "";
 	  var wordWrapLeftWidth = wordWrapWidth;
 	  for (var i = 0; i < textString.length; i++) {
@@ -4756,6 +4756,10 @@
 	    wordWrapLeftWidth -= width;
 	  }
 	  textObj.text = newStr;
+	};
+	helper.randomInt = function (min, max) {
+	  var num = Math.random() * (max - min) + min;
+	  return Math.floor(num);
 	};
 	
 	exports.default = helper;
@@ -6424,39 +6428,76 @@
 	
 	var _stonesRow2 = _interopRequireDefault(_stonesRow);
 	
+	var _stonesLine = __webpack_require__(84);
+	
+	var _stonesLine2 = _interopRequireDefault(_stonesLine);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/**
+	 * Created by guolei on 16/4/13.
+	 */
+	
 	
 	var CrazyStone = function CrazyStone() {
 	  var that = (0, _imports.Inherited)((0, _imports.BaseWorld)());
 	
 	  var _guard_line = 200;
-	  var _stone_init_array = [[0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 0, 1], [1, 1, 1, 0], [1, 1, 0, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 0, 1]];
 	
-	  var StonesRowList = [(0, _stonesRow2.default)(), (0, _stonesRow2.default)(), (0, _stonesRow2.default)(), (0, _stonesRow2.default)()];
+	  var _all_stone_list = [];
 	
 	  that.inheritOn('init', function () {
 	    drawBac();
-	    initStones();
+	    for (var i = 0; i < 9; i++) {
+	      initStones();
+	    }
+	    that.node.interactive = true;
+	    that.node.on('click', function (event) {
+	      for (var _i = 0; _i < _all_stone_list.length; _i++) {
+	        var row = checkClickRow(event.data.global.x);
+	        var stoneLine = _all_stone_list[_i];
+	        if (!stoneLine.checkBomb(row)) {
+	          break;
+	        }
+	        _all_stone_list.shift();
+	
+	        initStones();
+	        _i--;
+	      }
+	    });
 	    return true;
 	  });
 	
 	  that.inheritOn('update', function (dt) {
-	    for (var i = 0; i < StonesRowList.length; i++) {
-	      StonesRowList[i].update(dt);
+	    for (var i = 0; i < _all_stone_list.length; i++) {
+	      _all_stone_list[i].update(dt);
 	    }
 	  });
 	
-	  var initStones = function initStones() {
-	    for (var i = 0; i < _stone_init_array.length; i++) {
-	      for (var j = 0; j < _stone_init_array[i].length; j++) {
-	        var stone = (0, _stoneAtlas2.default)();
-	        stone.initWithData(_stone_init_array[i][j]);
-	        stone.node.position.x = ((j + 1) * 2 - 1) / 8 * _gameDefines2.default.Canvas.width;
-	        stone.node.position.y = i * stone.height - (_gameDefines2.default.Canvas.height - _guard_line);
-	        that.node.addChild(stone.node);
-	        StonesRowList[j].addStone(stone);
-	      }
+	  var checkClickRow = function checkClickRow(x) {
+	    var row = 0;
+	    if (x >= 0 && x < _gameDefines2.default.Canvas.width * 0.25) {
+	      row = 0;
+	    } else if (x >= _gameDefines2.default.Canvas.width * 0.25 && x < _gameDefines2.default.Canvas.width * 0.5) {
+	      row = 1;
+	    } else if (x >= _gameDefines2.default.Canvas.width * 0.5 && x < _gameDefines2.default.Canvas.width * 0.75) {
+	      row = 2;
+	    } else if (x >= _gameDefines2.default.Canvas.width * 0.75 && x < _gameDefines2.default.Canvas.width) {
+	      row = 3;
 	    }
+	    return row;
+	  };
+	
+	  var initStones = function initStones() {
+	    var line = (0, _stonesLine2.default)();
+	    line.randomLineStone(1);
+	    if (_all_stone_list.length > 0) {
+	      line.node.position.y = _all_stone_list[_all_stone_list.length - 1].node.position.y - 89;
+	    } else {
+	      line.node.position.y = _guard_line;
+	    }
+	    that.node.addChild(line.node);
+	    _all_stone_list.push(line);
 	  };
 	
 	  var drawBac = function drawBac() {
@@ -6481,10 +6522,7 @@
 	    that.node.addChild(graphics);
 	  };
 	  return that;
-	}; /**
-	    * Created by guolei on 16/4/13.
-	    */
-	
+	};
 	exports.default = CrazyStone;
 
 /***/ },
@@ -6518,6 +6556,7 @@
 	
 	  that.initWithData = function (data) {
 	    if (data === 1) {
+	      that.type = data;
 	      _imports.ResourceManager.load(_resources2.default.png_jineng_0, function () {
 	        var sprite = _imports.Helper.createSprite(_resources2.default.png_jineng_0);
 	        sprite.anchor.x = 0.5;
@@ -6529,10 +6568,11 @@
 	
 	  that.bomb = function () {
 	    that.node.visible = false;
+	    that.type = 0;
 	  };
 	
 	  that.update = function (dt) {
-	    that.node.position.y += that.speed;
+	    //that.node.position.y += that.speed;
 	  };
 	
 	  return that;
@@ -6541,16 +6581,20 @@
 
 /***/ },
 /* 80 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	/**
-	 * Created by guolei on 16/4/13.
-	 */
+	
+	var _gameGlobal = __webpack_require__(66);
+	
+	var _gameGlobal2 = _interopRequireDefault(_gameGlobal);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	var StonesRow = function StonesRow() {
 	  var that = {};
 	  var _row_list = [];
@@ -6563,10 +6607,16 @@
 	    for (var i = 0; i < _row_list.length; i++) {
 	      var stone = _row_list[i];
 	      if (stone.type !== 0) {
-	        //return _row_list[i-1];
+	        _gameGlobal2.default.events.fire('stoneBomb', i - 1, stone);
+	        return i;
 	      }
 	    }
 	  };
+	  _gameGlobal2.default.events.on('stoneBomb', function (id, stone) {
+	    for (var i = 0; i <= id; i++) {
+	      _row_list[i].bomb();
+	    }
+	  });
 	
 	  that.update = function (dt) {
 	    for (var i = 0; i < _row_list.length; i++) {
@@ -6575,8 +6625,83 @@
 	  };
 	
 	  return that;
-	};
+	}; /**
+	    * Created by guolei on 16/4/13.
+	    */
+	
 	exports.default = StonesRow;
+
+/***/ },
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _stoneAtlas = __webpack_require__(79);
+	
+	var _stoneAtlas2 = _interopRequireDefault(_stoneAtlas);
+	
+	var _gameDefines = __webpack_require__(63);
+	
+	var _gameDefines2 = _interopRequireDefault(_gameDefines);
+	
+	var _imports = __webpack_require__(1);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var StoneLine = function StoneLine() {
+	  var that = {};
+	  var _line_list = [];
+	  that.node = new PIXI.Container();
+	  that.speed = 5;
+	
+	  that.randomLineStone = function (level) {
+	    var stoneArray = [level, level, level, level];
+	    var randomNum = _imports.Helper.randomInt(0, 4);
+	    stoneArray[randomNum] = 0;
+	
+	    for (var i = 0; i < stoneArray.length; i++) {
+	      var stone = (0, _stoneAtlas2.default)();
+	      stone.initWithData(stoneArray[i]);
+	      stone.node.position.x = _gameDefines2.default.Canvas.width * ((i + 1) * 2 - 1) * 0.125;
+	      that.node.addChild(stone.node);
+	      _line_list.push(stone);
+	    }
+	  };
+	
+	  that.checkBomb = function (row) {
+	    var stone = _line_list[row];
+	    if (stone.type === 0) {
+	      playBomb();
+	      return true;
+	    }
+	    return false;
+	  };
+	
+	  var playBomb = function playBomb() {
+	    for (var i = 0; i < _line_list.length; i++) {
+	      var stone = _line_list[i];
+	      stone.bomb();
+	    }
+	  };
+	
+	  that.update = function (dt) {
+	    that.node.position.y += that.speed;
+	  };
+	
+	  return that;
+	}; /**
+	    * Created by guolei on 16/4/14.
+	    */
+	
+	exports.default = StoneLine;
 
 /***/ }
 /******/ ]);

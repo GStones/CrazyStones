@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48e23809-99d0-4fbd-8039-fbe0582f26b0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/game/crazy-stones/stones-line.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/game/crazy-stones/stones-row.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/pet_web.all.js" afterPath="$PROJECT_DIR$/build/pet_web.all.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/pet_web.all.js.map" afterPath="$PROJECT_DIR$/build/pet_web.all.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-world.js" afterPath="$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-world.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/game/crazy-stones/stone-atlas.js" afterPath="$PROJECT_DIR$/src/game/crazy-stones/stone-atlas.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/utility/helper.js" afterPath="$PROJECT_DIR$/src/utility/helper.js" />
     </list>
     <ignored path="CrazyStones.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,23 +31,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="game.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/game.js">
+      <file leaf-file-name="crazy-stone-world.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-world.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state vertical-scroll-proportion="-15.0">
+              <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#1124#1523#0" expanded="false" />
+                <element signature="e#1554#1878#0" expanded="false" />
+                <element signature="e#1906#2570#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="crazy-stone-world.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-world.js">
+      <file leaf-file-name="stones-line.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/stones-line.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
+              <caret line="28" column="2" selection-start-line="28" selection-start-column="2" selection-end-line="28" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -49,82 +59,17 @@
         <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/stone-atlas.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+              <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="stones-row.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/stones-row.js">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29490292">
-              <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#40#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webpack.config.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack.config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="resources.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/resources.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="4495" selection-start-line="0" selection-start-column="4495" selection-end-line="0" selection-end-column="4495" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pixi.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/pixi.js/bin/pixi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7202" column="9" selection-start-line="7202" selection-start-column="9" selection-end-line="7202" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pet_web.all.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build/pet_web.all.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4803" column="2" selection-start-line="4803" selection-start-column="2" selection-end-line="4803" selection-end-column="2" />
-              <folding>
-                <marker date="1460544520000" expanded="true" signature="207207:207655" placeholder="{...}" />
-                <marker date="1460544520000" expanded="true" signature="211969:211979" placeholder="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pixi.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/pixi.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="22360" column="32" selection-start-line="22360" selection-start-column="32" selection-end-line="22360" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base-world.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utility/render/base-world.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.07826087">
+              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -148,12 +93,19 @@
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-game.js" />
         <option value="$PROJECT_DIR$/src/resources.js" />
-        <option value="$PROJECT_DIR$/src/game.js" />
         <option value="$PROJECT_DIR$/node_modules/pixi.js/src/core/graphics/Graphics.js" />
         <option value="$PROJECT_DIR$/build/pet_web.all.js" />
-        <option value="$PROJECT_DIR$/src/game/crazy-stones/stone-atlas.js" />
+        <option value="$PROJECT_DIR$/src/game.js" />
+        <option value="$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-logic.js" />
+        <option value="$PROJECT_DIR$/src/game/crazy-stones/show/stones-row.js" />
+        <option value="$PROJECT_DIR$/src/game/crazy-stones/logic/crazy-stone-logic.js" />
+        <option value="$PROJECT_DIR$/src/game/crazy-stones/logic/stone-row-logic.js" />
         <option value="$PROJECT_DIR$/src/game/crazy-stones/stones-row.js" />
+        <option value="$PROJECT_DIR$/src/utility/helper.js" />
+        <option value="$PROJECT_DIR$/src/game/crazy-stones/stone-atlas.js" />
+        <option value="$PROJECT_DIR$/src/game/crazy-stones/stones-line.js" />
         <option value="$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-world.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -192,7 +144,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -214,6 +165,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -227,6 +179,11 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/game/crazy-stones" />
+      <recent name="$PROJECT_DIR$/src/game/crazy-stones/show" />
+      <recent name="$PROJECT_DIR$/src/game/crazy-stones/logic" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/ui" />
     </key>
@@ -302,18 +259,18 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286385" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39764705" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39882353" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -321,7 +278,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="11" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -340,7 +297,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
-          <folding />
+          <folding>
+            <element signature="e#1124#1523#0" expanded="false" />
+            <element signature="e#1554#1878#0" expanded="false" />
+            <element signature="e#1906#2570#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -349,16 +310,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/stones-row.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#40#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -391,8 +342,135 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="4803" column="2" selection-start-line="4803" selection-start-column="2" selection-end-line="4803" selection-end-column="2" />
           <folding>
-            <marker date="1460544520000" expanded="true" signature="207207:207655" placeholder="{...}" />
-            <marker date="1460544520000" expanded="true" signature="211969:211979" placeholder="{...}" />
+            <element signature="e#1075#1083#0" expanded="false" />
+            <marker date="1460629867000" expanded="true" signature="209:906" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="483:574" placeholder="{&quot;loaded&quot;: false...}" />
+            <marker date="1460629867000" expanded="true" signature="916:924" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="925:933" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="986:994" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1029:1037" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1038:1046" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1075:1083" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1127:1135" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1136:1144" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1173:1181" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1211:1219" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1220:1228" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1270:1278" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1311:1319" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1323:1397" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1398:1406" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1408:214986" placeholder="[...]" />
+            <marker date="1460629867000" expanded="true" signature="1410:1417" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1418:1423" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1471:2210" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="214966:214975" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="214968:214973" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="214976:214984" placeholder="/*...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/pixi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22360" column="32" selection-start-line="22360" selection-start-column="32" selection-end-line="22360" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utility/render/base-world.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-world.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
+          <folding>
+            <element signature="e#1124#1523#0" expanded="false" />
+            <element signature="e#1554#1878#0" expanded="false" />
+            <element signature="e#1906#2570#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/stone-atlas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/resources.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="4495" selection-start-line="0" selection-start-column="4495" selection-end-line="0" selection-end-column="4495" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/pixi.js/bin/pixi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7202" column="9" selection-start-line="7202" selection-start-column="9" selection-end-line="7202" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/pet_web.all.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4803" column="2" selection-start-line="4803" selection-start-column="2" selection-end-line="4803" selection-end-column="2" />
+          <folding>
+            <element signature="e#1075#1083#0" expanded="false" />
+            <marker date="1460629867000" expanded="true" signature="209:906" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="483:574" placeholder="{&quot;loaded&quot;: false...}" />
+            <marker date="1460629867000" expanded="true" signature="916:924" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="925:933" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="986:994" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1029:1037" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1038:1046" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1075:1083" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1127:1135" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1136:1144" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1173:1181" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1211:1219" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1220:1228" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1270:1278" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1311:1319" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1323:1397" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1398:1406" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1408:214986" placeholder="[...]" />
+            <marker date="1460629867000" expanded="true" signature="1410:1417" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1418:1423" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1471:2210" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="214966:214975" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="214968:214973" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="214976:214984" placeholder="/*...*/" />
           </folding>
         </state>
       </provider>
@@ -424,13 +502,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utility/helper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -482,16 +553,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/resources.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -503,10 +564,33 @@
     <entry file="file://$PROJECT_DIR$/build/pet_web.all.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4803" column="2" selection-start-line="4803" selection-start-column="2" selection-end-line="4803" selection-end-column="2" />
+          <caret line="4827" column="2" selection-start-line="4827" selection-start-column="2" selection-end-line="4827" selection-end-column="2" />
           <folding>
-            <marker date="1460544520000" expanded="true" signature="207207:207655" placeholder="{...}" />
-            <marker date="1460544520000" expanded="true" signature="211969:211979" placeholder="{...}" />
+            <element signature="e#1075#1083#0" expanded="false" />
+            <marker date="1460629867000" expanded="true" signature="209:906" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="483:574" placeholder="{&quot;loaded&quot;: false...}" />
+            <marker date="1460629867000" expanded="true" signature="916:924" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="925:933" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="986:994" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1029:1037" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1038:1046" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1075:1083" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1127:1135" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1136:1144" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1173:1181" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1211:1219" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1220:1228" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1270:1278" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1311:1319" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1323:1397" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1398:1406" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1408:214986" placeholder="[...]" />
+            <marker date="1460629867000" expanded="true" signature="1410:1417" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1418:1423" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="1471:2210" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="214966:214975" placeholder="{...}" />
+            <marker date="1460629867000" expanded="true" signature="214968:214973" placeholder="/*...*/" />
+            <marker date="1460629867000" expanded="true" signature="214976:214984" placeholder="/*...*/" />
           </folding>
         </state>
       </provider>
@@ -519,14 +603,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/pixi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22360" column="32" selection-start-line="22360" selection-start-column="32" selection-end-line="22360" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webpack.config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -535,29 +611,91 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/game-defines.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game-global.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/pixi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15582" column="0" selection-start-line="15582" selection-start-column="0" selection-end-line="15582" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="572" column="0" selection-start-line="572" selection-start-column="0" selection-end-line="572" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utility/helper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="25" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/stone-atlas.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/stones-line.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="2" selection-start-line="28" selection-start-column="2" selection-end-line="28" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/crazy-stone-world.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
-          <folding />
+        <state vertical-scroll-proportion="-15.0">
+          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+          <folding>
+            <element signature="e#1124#1523#0" expanded="false" />
+            <element signature="e#1554#1878#0" expanded="false" />
+            <element signature="e#1906#2570#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/game/crazy-stones/stones-row.js">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29490292">
-          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#40#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.07826087">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding />
         </state>
       </provider>
     </entry>
