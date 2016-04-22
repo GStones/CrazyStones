@@ -27,7 +27,7 @@ const BaseWorld = function () {
       }
       that.node.children[i].interactiveChildren = false;
     }
-  }
+  };
 
   that.unlock2Layer = function (layer) {
 

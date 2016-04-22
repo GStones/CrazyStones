@@ -28,11 +28,11 @@ const StoneLine = (()=> {
 
   that.checkBomb = ((row)=> {
     let stone = _line_list[row];
-    if (stone.type === 0) {
+    if (stone.level === 0) {
       playBomb();
       return true;
     }
-      return false;
+    return false;
   });
 
   const playBomb = (()=> {

@@ -5,11 +5,13 @@
 import {ResourceManager}from './imports';
 var helper = helper || {};
 
+helper.scale = 1;
+
 helper.scaleToWindow = function (renderer, stage) {
   var scaleX = window.innerWidth / 480;
   var scaleY = window.innerHeight / 754;
   var scale = Math.min(scaleX, scaleY);
-
+  helper.scale = scale;
   var width = 480 * scale;
   var height = 754 * scale;
 
@@ -25,6 +27,7 @@ helper.scaleToWindow = function (renderer, stage) {
   //canvas.style.transform = "scale(" + scale + ")";
 
   //renderer.autoResize = true;
+  console.log('scaleToWindow,scale',scale);
   renderer.resize(width, height);
   stage.scale.x = scale;
   stage.scale.y = scale;

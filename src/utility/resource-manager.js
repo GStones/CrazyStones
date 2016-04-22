@@ -69,6 +69,8 @@ const ResourceManager = ResourceManager || (()=> {
         _loadingMap[name] = cbList;
         cbList.push(cb);
         console.log('loadMap',resourcePath+name);
+
+
         PIXI.loader.add(name, resourcePath+name).load(function (loader, res) {
           that.resource[name] = res[name];
           for (var i = 0; i < cbList.length; ++i) {
@@ -92,15 +94,15 @@ const ResourceManager = ResourceManager || (()=> {
             cb.call(this);
           }
         }
-      }
+      };
 
       for (var i = 0; i < resList.length; ++i) {
         that.load(resList[i], checkEndFunc);
       }
 
-    }
+    };
 
     return that;
   })();
 
-export  default ResourceManager;
+export default ResourceManager;

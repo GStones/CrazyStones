@@ -3,7 +3,7 @@ import os;
 import json;
 basepath = './assets'
 resourcePath ='./src/resources.js'
-resType = ['.json','.png','.fnt','.jpg']
+resType = ['.json','.png','.fnt','.jpg','.plist']
 resDict = {}
 def addFile(d,p):
 	print 'addFile',p

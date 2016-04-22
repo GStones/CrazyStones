@@ -5,18 +5,16 @@ import {Helper,ResourceManager}from '../../utility/imports';
 import  res from '../../resources'
 let StoneAtlas = (()=> {
   let that = {};
-  that.type = 0;
+  that.level = 0;
   that.node = new PIXI.Container();
-  that.height = 89;
-  that.speed = 2;
 
-  that.initWithData = ((data)=> {
-    if (data===1) {
-      that.type = data;
-      ResourceManager.load(res.png_jineng_0, ()=> {
+  that.initWithData = ((level)=> {
+    that.level = level;
+    if (that.level > 0) {
+      ResourceManager.loadList([res.png_jineng_0,res.png_jineng_bg], ()=> {
         let sprite = Helper.createSprite(res.png_jineng_0);
-        sprite.anchor.x = 0.5;
-        sprite.anchor.y = 0.5;
+        sprite.anchor.set(0.5);
+        sprite.tint =0xFFD700;
         that.node.addChild(sprite);
       });
     }
@@ -24,13 +22,8 @@ let StoneAtlas = (()=> {
 
   that.bomb = (()=> {
     that.node.visible = false;
-    that.type = 0;
+    that.level = 0;
   });
-
-  that.update = function (dt) {
-    //that.node.position.y += that.speed;
-  };
-
 
   return that;
 });
