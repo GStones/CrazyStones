@@ -7,6 +7,7 @@ import define from '../../game-defines'
 import StoneAtlas from './stone-atlas'
 import StonesLine from  './stones-line'
 
+
 const CrazyStone = (()=> {
   let that = Inherited(BaseWorld());
 
@@ -14,43 +15,31 @@ const CrazyStone = (()=> {
   let _guard_line = 200;
 
   let _all_stone_list = [];
+  let _touch_row_list = [];
   let _graphics = new PIXI.Graphics();
+
+
   let drawPot = (pos=> {
     _graphics.beginFill('red', 1);
-    _graphics.drawCircle(pos.x/Helper.scale, pos.y/Helper.scale, 10);
+    _graphics.drawCircle(pos.x / Helper.scale, pos.y / Helper.scale, 10);
     _graphics.endFill();
   });
+
+
   that.inheritOn('init', ()=> {
 
     drawBac();
-
     for (let i = 0; i < 9; i++) {
       initStones();
     }
     that.node.interactive = true;
 
 
-    let touchFire = event=> {
-      for (let i = 0; i < _all_stone_list.length; i++) {
+    that.node.on('touchstart', touchFire)
+      .on('mousedown', touchFire);
 
-        let row = checkClickRow(event.data.global.x/Helper.scale);
+    //that.node.alpha = 0.5;
 
-        drawPot(event.data.global);
-        let stoneLine = _all_stone_list[i];
-        if (!stoneLine.checkBomb(row)) {
-          break;
-        }
-        _all_stone_list.shift();
-
-        initStones();
-        i--;
-      }
-    };
-    that.node.on('touchmove',touchFire)
-              .on('mousedown',touchFire);
-
-    that.node.alpha = 0.5;
-    that.node.addChild(_graphics);
     return true;
   });
 
@@ -58,7 +47,38 @@ const CrazyStone = (()=> {
     for (let i = 0; i < _all_stone_list.length; i++) {
       _all_stone_list[i].update(dt);
     }
+    for (let i = 0; i < _touch_row_list.length; i++) {
+      checkStoneBomb(_touch_row_list[i]);
+      _touch_row_list.shift();
+      i--;
+    }
   });
+
+
+  let checkStoneBomb = ((row)=> {
+    let bomb_list = [];
+    for (let i = 0; i < _all_stone_list.length; i++) {
+      //drawPot(event.data.global);
+      let stoneLine = _all_stone_list[i];
+      if (stoneLine.isDead)continue;
+      if (!stoneLine.checkBomb(row)) {
+        break;
+      }
+      bomb_list.push(stoneLine);
+    }
+
+    for (let i = bomb_list.length - 1; i >= 0; i--) {
+      bomb_list[i].playBomb(()=> {
+        _all_stone_list.shift();
+        initStones();
+      });
+    }
+  });
+
+  const touchFire = event=> {
+    let row = checkClickRow(event.data.global.x / Helper.scale);
+    _touch_row_list.push(row);
+  };
 
   const checkClickRow = ((x)=> {
     let row = 0;
@@ -87,8 +107,6 @@ const CrazyStone = (()=> {
   });
 
   const drawBac = (()=> {
-
-
     _graphics.beginFill(0xF5F5DC, 1);
     _graphics.drawRect(0, 0, define.Canvas.width, define.Canvas.height);
     _graphics.endFill();
@@ -105,6 +123,7 @@ const CrazyStone = (()=> {
     _graphics.drawRect(0, _guard_line, define.Canvas.width, 10);
     _graphics.endFill();
 
+    that.node.addChild(_graphics);
 
   });
   return that;

@@ -3,28 +3,33 @@
  */
 import define from '../../game-defines'
 import  res from '../../resources'
+import {Helper,ResourceManager}from '../../utility/imports';
 const Bullet = (()=> {
   let that = {};
   that.node = new PIXI.Container();
-  let _start_pos = define.Canvas.height + 100;
+  that.node.position.y = define.Canvas.height + 100;
   let _bullet_sprite = null;
   let _action = null;
 
-  that.init = (()=> {
-    _bullet_sprite = new PIXI.Sprite.fromImage(res.png_jineng_1);
-    _bullet_sprite.position.y = _start_pos;
+  that.fire = ((row,callBack)=> {
+    _bullet_sprite = Helper.createSprite(res.png_jineng_1);
+    _bullet_sprite.anchor.set(0.5);
     that.node.addChild(_bullet_sprite);
-  });
 
-  that.fireInRow = ((row, endPos)=> {
-    _bullet_sprite.position.x = define.Canvas.width * ((row + 1) * 2 - 1) * 0.125;
-    let pos = {_start_pos};
-    _action = EZGUI.Tween(pos);
-    _action.to({endPos}, 0.5);
-    _action.start();
-  });
+    that.node.position.x = define.Canvas.width * ((row + 1) * 2 - 1) * 0.125;
+    //that.node.position.y = endPos;
+    _action = new EZGUI.Tween(that.node.position)
+      .to({y: 0}, 300)
+      .onComplete(()=> {
+        that.node.visible = false;
+        callBack();
+      })
+      .start();
 
+
+  });
 
 
   return that;
 });
+export default Bullet;
